@@ -1,10 +1,13 @@
 package com.voronin.api.clients
 
-import com.voronin.api.TinkoffApiService
-import javax.inject.Inject
+import com.voronin.api.dto.DepositionPointDto
+import io.reactivex.Single
 
-class TinkoffApiClient @Inject constructor(
-     val api: TinkoffApiService,
-) {
+interface TinkoffApiClient {
 
+    fun getDepositionPoints(
+        latitude: Float,
+        longitude: Float,
+        radius: Int,
+    ): Single<List<DepositionPointDto>>
 }

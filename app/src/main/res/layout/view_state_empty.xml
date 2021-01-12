@@ -1,84 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="@dimen/default_padding"
-    android:paddingEnd="@dimen/default_padding"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    android:layout_height="match_parent">
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationViewEmpty"
         android:layout_width="0dp"
         android:layout_height="0dp"
-
-        app:layout_constraintBottom_toTopOf="@id/textEmptyTitle"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="12dp"
+        android:maxWidth="244dp"
+        android:maxHeight="244dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/textEmpty"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_max="224dp"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35"
         app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintWidth_max="224dp"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/internet_error" />
 
-        tools:background="#d4d4d4" />
-
-    <TextView
-        android:id="@+id/textEmptyTitle"
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textEmpty"
+        fontPath="fonts/Roboto-Medium.ttf"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start"
+        android:letterSpacing="-0.02"
         android:lineSpacingExtra="5sp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
-        android:textColor="@color/black"
-
-        app:layout_constraintBottom_toTopOf="@id/textEmptyComment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animationViewEmpty"
-
-        tools:text="@string/error_internet_message" />
-
-    <TextView
-        android:id="@+id/textEmptyComment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/default_padding_tiny"
-        android:layout_marginBottom="18dp"
-        android:gravity="center"
-        android:paddingStart="@dimen/default_padding"
-        android:paddingEnd="@dimen/default_padding"
-        android:textColor="@color/grey_dark"
-
-        app:layout_constraintBottom_toTopOf="@id/buttonEmpty"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textEmptyTitle"
-        app:layout_goneMarginTop="24dp"
-
-        tools:text="@string/error_internet_message" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/default_padding"
-        android:text="@string/error_refresh"
-
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textEmptyComment"
-        app:layout_constraintVertical_bias="1"
+        app:layout_constraintTop_toBottomOf="@+id/animationViewEmpty"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="RtlCompat,UnusedAttribute" />
 
-        tools:text="try again"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline50"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewLineToCatalog"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline50"
+        app:layout_constraintStart_toEndOf="@id/guideline10"
+        app:layout_constraintTop_toBottomOf="@id/textEmpty"
+
         tools:visibility="visible" />
 
-</merge>
+</androidx.constraintlayout.widget.ConstraintLayout>

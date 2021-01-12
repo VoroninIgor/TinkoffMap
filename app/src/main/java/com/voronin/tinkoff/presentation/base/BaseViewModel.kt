@@ -1,51 +1,42 @@
 package com.voronin.tinkoff.presentation.base
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.voronin.api.base.LoadableResult
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
+import com.voronin.tinkoff.data.Interactor
+import com.voronin.tinkoff.data.Interactor2
+import com.voronin.tinkoff.utils.async
+import io.reactivex.Completable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 abstract class BaseViewModel : ViewModel() {
 
-    protected fun <T> loadData(
-        block: suspend () -> T,
-    ): Flow<LoadableResult<T>> = flow {
-        try {
-            emit(LoadableResult.loading<T>())
-            emit(LoadableResult.success(block()))
-        } catch (error: Throwable) {
-            emit(LoadableResult.failure<T>(error))
-        }
+    protected val compositeDisposable = CompositeDisposable()
+
+    fun <T> execute(interactor: Interactor<T>?): Disposable? {
+        val disposable = interactor?.execute()
+        disposable?.let { compositeDisposable.add(it) }
+        return disposable
     }
 
-    protected fun <T> loadData(
-        block: Flow<T>,
-    ): Flow<LoadableResult<T>> = flow {
-        try {
-            emit(LoadableResult.loading())
-            block.collect {
-                emit(LoadableResult.success(it))
-            }
-        } catch (error: Throwable) {
-            emit(LoadableResult.failure<T>(error))
-        }
+    fun <T> execute(interactor: Interactor2<T>?): Disposable? {
+        val disposable = interactor?.execute()
+        disposable?.let { compositeDisposable.add(it) }
+        return disposable
     }
 
-    protected fun <T> MutableLiveData<LoadableResult<T>>.launchLoadData(
-        block: suspend () -> T,
-    ): Job = viewModelScope.launch {
-        loadData(block).collect { result -> this@launchLoadData.postValue(result) }
+    fun execute(
+        completable: Completable,
+        onComplete: () -> Unit,
+        onError: ((error: Throwable) -> Unit)? = null,
+    ): Disposable? {
+        val disposable = completable.async()
+            .subscribe(onComplete, { onError?.invoke(it) })
+        disposable.let { compositeDisposable.add(it) }
+        return disposable
     }
 
-    protected fun <T> MutableLiveData<LoadableResult<T>>.launchLoadData(
-        block: Flow<T>,
-    ): Job = viewModelScope.launch {
-        loadData(block).collect { result -> this@launchLoadData.postValue(result) }
+    override fun onCleared() {
+        compositeDisposable.dispose()
+        super.onCleared()
     }
-
 }

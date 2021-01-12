@@ -14,12 +14,12 @@ import javax.inject.Singleton
 open class ApiServiceModule {
 
     companion object {
-        private val BASE_URL = ""
+        private const val BASE_URL = " https://api.tinkoff.ru/v1/"
     }
 
     @Provides
     @Singleton
-    fun provideApiService(
+    internal fun provideApiService(
         gson: Gson,
         client: OkHttpClient,
     ): TinkoffApiService = Retrofit
@@ -33,7 +33,7 @@ open class ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
+    internal fun provideGson(): Gson {
         return Gson()
     }
 }

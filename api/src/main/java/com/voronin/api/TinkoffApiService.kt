@@ -1,11 +1,21 @@
 package com.voronin.api
 
-interface TinkoffApiService {
+import com.voronin.api.dto.DepositionPointDto
+import com.voronin.api.models.PayloadResponse
+import io.reactivex.Single
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-//    @POST("auth/device")
-//    fun registerDevice(@Body params: RegisterDeviceParams): Single<ObjectResponse<RegisterDeviceData>>
+internal interface TinkoffApiService {
+
+    @GET("deposition_points")
+    fun getAllDepositionPoints(
+        @Query("latitude") latitude: Float,
+        @Query("longitude") longitude: Float,
+        @Query("radius") radius: Int,
+    ): Single<PayloadResponse<List<DepositionPointDto>>>
+
+//    https://api.tinkoff.ru/v1/deposition_points?latitude=55.755786&longitude=37.617633&partners=EUROSET&radius=1000 - для партнеров
 //
-//    @GET("utility/env")
-//    fun getAppEnv(): Single<ObjectResponse<UtilityEnv>>
-
+//    https://api.tinkoff.ru/v1/deposition_points?latitude=55.755786&longitude=37.617633&radius=1000 - все
 }

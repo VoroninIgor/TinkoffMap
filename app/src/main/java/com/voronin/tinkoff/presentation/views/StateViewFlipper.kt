@@ -5,65 +5,69 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ViewFlipper
-import androidx.annotation.LayoutRes
-import androidx.annotation.RawRes
-import androidx.annotation.StringRes
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.isVisible
-import com.voronin.api.base.Failure
-import com.voronin.api.base.LoadableResult
-import com.voronin.api.base.Loading
-import com.voronin.api.base.NetworkError
-import com.voronin.api.base.ParsedError
-import com.voronin.api.base.Success
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import com.airbnb.lottie.LottieAnimationView
 import com.voronin.tinkoff.R
+import com.voronin.tinkoff.data.OperationState
+import com.voronin.tinkoff.utils.isServerError
+import kotlinx.android.synthetic.main.view_state_empty.view.animationViewEmpty
+import kotlinx.android.synthetic.main.view_state_empty.view.imageViewLineToCatalog
+import kotlinx.android.synthetic.main.view_state_empty.view.textEmpty
+import kotlinx.android.synthetic.main.view_state_error.view.animationViewError
 import kotlinx.android.synthetic.main.view_state_error.view.buttonError
 import kotlinx.android.synthetic.main.view_state_error.view.textErrorDescription
-import kotlinx.android.synthetic.main.view_state_error.view.textErrorTitle
+import kotlinx.android.synthetic.main.view_state_loading.view.animationViewProgress
 
 class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlipper(context, attrs) {
 
     enum class State(val displayedChild: Int) {
         LOADING(0),
-        ERROR(1),
-        DATA(2),
-        CUSTOM(3)
+        EMPTY(1),
+        ERROR(2),
+        DATA(3)
     }
 
     private var state = State.LOADING
 
-    private var loadingView: View
-    private val errorView: View
+    private lateinit var loadingView: View
+    private val animationViewLoading: LottieAnimationView by lazy { loadingView.animationViewProgress }
+//     private val lottieAnimationView: LottieAnimationView by lazy { loadingView.lottieAnimationView }
 
-    private val disabledStates = mutableListOf<State>()
+    private lateinit var emptyView: View
+    val animationViewEmpty: LottieAnimationView by lazy { emptyView.animationViewEmpty }
+    val textEmpty: AppCompatTextView by lazy { emptyView.textEmpty }
+    val imageLineToCatalog: AppCompatImageView by lazy { emptyView.imageViewLineToCatalog }
+//    val textAsButtonEmpty: AppCompatTextView by lazy { emptyView.textAsButtonEmpty }
+
+    private lateinit var errorView: View
+    private val animationViewError: LottieAnimationView by lazy { errorView.animationViewError }
+    private val textErrorDescription: AppCompatTextView by lazy { errorView.textErrorDescription }
+    // val imageError: AppCompatImageView by lazy { errorView.imageError }
+    // val textError: AppCompatTextView by lazy { errorView.textError }
+    // val textAsButtonError: AppCompatTextView by lazy { errorView.textAsButtonError }
+
+    private var currentAnimationViewEmpty: LottieAnimationView? = null
 
     init {
         val layoutInflater = LayoutInflater.from(context)
-        val layoutResProvider = LayoutResProvider(context, attrs)
 
-        loadingView = layoutInflater.inflate(layoutResProvider.loadingRes, this, false)
+        loadingView = layoutInflater.inflate(R.layout.view_state_loading, this, false)
         addView(loadingView)
 
-        errorView = layoutInflater.inflate(layoutResProvider.errorRes, this, false)
-        addView(errorView)
+        emptyView = layoutInflater.inflate(R.layout.view_state_empty, this, false)
+        addView(emptyView)
 
-        var collapseStatesToTop = false
-        if (attrs != null) {
-            val array = context.obtainStyledAttributes(attrs, R.styleable.StateViewFlipper)
-            collapseStatesToTop = array.getBoolean(R.styleable.StateViewFlipper_collapseStatesToTop, false)
-            array.recycle()
-        }
-        if (collapseStatesToTop) {
-            collapseErrorViewToTop()
-        }
+        errorView = layoutInflater.inflate(R.layout.view_state_error, this, false)
+        addView(errorView)
     }
 
-    fun <T> setStateFromResult(loadableResult: LoadableResult<T>) {
-        when (loadableResult) {
-            is Loading -> setStateLoading()
-            is Success -> setStateData()
-            is Failure -> setStateError(loadableResult.error)
+    fun changeState(operationState: OperationState) {
+        when (operationState) {
+            is OperationState.Loading -> setStateLoading()
+            is OperationState.Success -> setStateData()
+            is OperationState.Error -> setStateError(operationState)
+            is OperationState.Cancel -> setStateError()
         }
     }
 
@@ -71,138 +75,85 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
         errorView.buttonError.setOnClickListener { retry.invoke() }
     }
 
-    fun setCustomState() {
-        changeState(State.CUSTOM)
-    }
-
-    fun currentState() = state
-
-    /** Метод деактивирует определенное состояние и не обрабатывает его в changeState() */
-    fun disableState(vararg states: State) {
-        for (state in states) {
-            if (stateIsDisabled(state)) continue
-            disabledStates.add(state)
-            getChildAt(state.displayedChild)?.isVisible = false
-        }
-    }
-
-    fun setLoadingView(@LayoutRes layout: Int) {
-        removeView(loadingView)
-        loadingView = LayoutInflater.from(context).inflate(layout, this, false)
-        addView(loadingView, 0)
-        changeState(state)
-    }
-
-    /** На некоторых экранах необходимо прибить вью ошибки в верхнюю часть экрана, например на экране списка транзакций */
-    private fun collapseErrorViewToTop() {
-        if (errorView is ConstraintLayout) {
-            val constraintSet = ConstraintSet()
-            constraintSet.clone(errorView)
-            constraintSet.setVerticalBias(R.id.animationViewError, 0f)
-            constraintSet.connect(
-                R.id.buttonError,
-                ConstraintSet.TOP,
-                R.id.textErrorDescription,
-                ConstraintSet.BOTTOM
-            )
-            constraintSet.applyTo(errorView)
-        }
-    }
-
     private fun changeState(newState: State) {
-        if (stateIsDisabled(newState)) return
-        if (state != newState || displayedChild != newState.displayedChild) {
+        if (state != newState) {
             state = newState
             displayedChild = newState.displayedChild
         }
     }
 
-    private fun setStateLoading() {
+    fun setStateLoading() {
         changeState(State.LOADING)
+        runAnimationAndStopOthers(animationViewLoading)
     }
 
-    private fun setStateError(error: ParsedError) {
+    fun setStateEmpty() {
+        changeState(State.EMPTY)
+        runAnimationAndStopOthers(animationViewEmpty)
+    }
+
+    fun setStateError(error: OperationState.Error? = null) {
         changeState(State.ERROR)
-
-        when (error) {
-            is NetworkError -> setStateNetworkError()
-            else -> setGeneralError()
-        }
-    }
-
-    private fun setStateData() {
-        changeState(State.DATA)
-
-    }
-
-
-    /**
-     * Ошибка "Что-то с интернетом"
-     */
-    private fun setStateNetworkError() {
-        setErrorStateContent(
-            titleRes = R.string.error_no_network_title,
-            descriptionRes = R.string.error_no_network_description,
-            errorRes = 0,
-        )
-    }
-
-    /**
-     * Ошибка "Что-то не так"
-     */
-    private fun setGeneralError() {
-        setErrorStateContent(
-            titleRes = R.string.error_something_wrong_title,
-            descriptionRes = R.string.error_something_wrong_description,
-            errorRes = 0
-        )
-    }
-
-    private fun setErrorStateContent(@StringRes titleRes: Int, @StringRes descriptionRes: Int, @RawRes errorRes: Int) {
-        errorView.textErrorTitle?.setText(titleRes)
-        errorView.textErrorDescription?.setText(descriptionRes)
-    }
-
-    private fun stateIsDisabled(state: State): Boolean {
-        return disabledStates.contains(state)
-    }
-
-    private class LayoutResProvider(context: Context, attrs: AttributeSet?) {
-
-        companion object {
-            @LayoutRes
-            val DEFAULT_ERROR_LAYOUT = R.layout.view_state_error
-
-            @LayoutRes
-            val DEFAULT_LOADING_LAYOUT = R.layout.view_state_loading
-        }
-
-        @LayoutRes val loadingRes: Int
-        @LayoutRes val errorRes: Int
-
-        init {
-            if (attrs != null) {
-                val array = context.obtainStyledAttributes(attrs, R.styleable.StateViewFlipper)
-
-                val collapseStatesToTop = array.getBoolean(R.styleable.StateViewFlipper_collapseStatesToTop, false)
-                val loadingId = array.getResourceId(R.styleable.StateViewFlipper_loadingLayoutRes, -1)
-                loadingRes = if (loadingId == -1 && collapseStatesToTop) {
-                    R.layout.view_state_loading_top
-                } else if (loadingId == -1) {
-                    DEFAULT_LOADING_LAYOUT
+        if (error == null) {
+            textErrorDescription.setText(R.string.error_default_message)
+            animationViewError.setAnimation(R.raw.internet_error)
+        } else {
+            if (error.e is retrofit2.HttpException) {
+                if (error.e.code().isServerError()) {
+                    textErrorDescription.setText(R.string.error_service)
+                    animationViewError.setAnimation(R.raw.error_server)
                 } else {
-                    loadingId
+                    textErrorDescription.setText(R.string.error_default_message)
+                    animationViewError.setAnimation(R.raw.internet_error)
                 }
-                errorRes = array.getResourceId(
-                    R.styleable.StateViewFlipper_errorLayoutRes,
-                    DEFAULT_ERROR_LAYOUT
-                )
-
-                array.recycle()
             } else {
-                loadingRes = DEFAULT_LOADING_LAYOUT
-                errorRes = DEFAULT_ERROR_LAYOUT
+                textErrorDescription.setText(R.string.error_default_message)
+                animationViewError.setAnimation(R.raw.internet_error)
             }
         }
+        runAnimationAndStopOthers(animationViewError)
     }
+
+    fun setStateData() {
+        changeState(State.DATA)
+        runAnimationAndStopOthers()
+    }
+
+    /**
+     * @param animationView - запускает эту анимацию и останавливает анимации у других состояний. Если null,
+     * то останавливает все анимации
+     */
+    private fun runAnimationAndStopOthers(animationView: LottieAnimationView? = null) {
+        if (animationView != animationViewError) {
+            animationViewError.pauseAnimation()
+        }
+
+        if (animationView != animationViewLoading) {
+            animationViewLoading.pauseAnimation()
+        }
+
+        if (animationView != animationViewEmpty) {
+            animationViewEmpty.pauseAnimation()
+        }
+
+        if (currentAnimationViewEmpty != animationView) {
+            currentAnimationViewEmpty = animationView
+            animationView?.playAnimation()
+        }
+    }
+
+    fun isLoading() = state == State.LOADING
+    fun isEmpty() = state == State.EMPTY
+    fun isError() = state == State.ERROR
+    fun isData() = state == State.DATA
+
+//    fun setStateInternetError() {
+//        // textError.text = context.getString(R.string.error_internet)
+//        changeState(State.ERROR)
+//    }
+//
+//    fun setStateUnknownError() {
+//        // textError.text = context.getString(R.string.error_unknown)
+//        changeState(State.ERROR)
+//    }
 }

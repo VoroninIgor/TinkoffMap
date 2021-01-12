@@ -1,6 +1,5 @@
 package com.voronin.api.ext
 
-
 import com.voronin.api.base.DEFAULT_ERROR_MESSAGE
 import com.voronin.api.base.GeneralError
 import com.voronin.api.base.ParsedError

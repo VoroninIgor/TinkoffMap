@@ -1,5 +1,6 @@
 package com.voronin.tinkoff.di.component
 
+import com.voronin.api.di.ApiClientModule
 import com.voronin.api.di.ApiServiceModule
 import com.voronin.tinkoff.TinkoffApplication
 import com.voronin.tinkoff.di.module.ActivityModule
@@ -16,7 +17,10 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ApplicationModule::class,
+
         ApiServiceModule::class,
+        ApiClientModule::class,
+
         ActivityModule::class,
         FragmentModule::class,
     ]
