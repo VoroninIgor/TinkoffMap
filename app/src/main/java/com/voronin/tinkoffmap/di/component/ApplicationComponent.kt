@@ -1,14 +1,14 @@
 package com.voronin.tinkoffmap.di.component
 
 import com.voronin.tinkoffmap.TinkoffMapApplication
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
 import com.voronin.tinkoffmap.di.module.ActivityModule
 import com.voronin.tinkoffmap.di.module.ApiServiceModule
 import com.voronin.tinkoffmap.di.module.ApplicationModule
 import com.voronin.tinkoffmap.di.module.FragmentModule
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton

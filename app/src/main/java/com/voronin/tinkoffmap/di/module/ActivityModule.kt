@@ -1,6 +1,6 @@
 package com.voronin.tinkoffmap.di.module
 
-import com.voronin.tinkoffmap.MainActivity
+import com.voronin.tinkoffmap.presentation.mainactivity.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

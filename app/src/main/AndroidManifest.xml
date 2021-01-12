@@ -12,7 +12,7 @@
         android:theme="@style/Theme.TinkoffMap">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.voronin.tinkoffmap.presentation.mainactivity.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>

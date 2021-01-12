@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">TinkoffMap</string>
+
+    <!-- НЕТ ИНТЕРНЕТА -->
+    <string name="error_no_network_title">Что-то с интернетом</string>
+    <string name="error_no_network_description">Проверьте мобильное соединение или Wi-Fi, а затем обновите экран</string>
+
+    <!-- ЧТО-ТО НЕ ТАК -->
+    <string name="error_something_wrong_title">Что-то пошло не так</string>
+    <string name="error_something_wrong_description">Попробуйте обновить страницу</string>
+
+    <!-- ОБЩИЕ ОШИБКИ -->
+    <string name="error_auth_401">Что-то пошло не так. Необходимо авторизоваться повторно</string>
+    <string name="error_internet_message">Не удалось получить данные, попробуйте позже</string>
+    <string name="error_retry">Повторить</string>
+    <string name="error_refresh">Обновить</string>
+
 </resources>

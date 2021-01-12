@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/default_padding"
+    android:paddingEnd="@dimen/default_padding"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/animationViewEmpty"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/textEmptyTitle"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="224dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_max="224dp"
+
+        tools:background="#d4d4d4" />
+
+    <TextView
+        android:id="@+id/textEmptyTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:lineSpacingExtra="5sp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:textColor="@color/black"
+
+        app:layout_constraintBottom_toTopOf="@id/textEmptyComment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animationViewEmpty"
+
+        tools:text="@string/error_internet_message" />
+
+    <TextView
+        android:id="@+id/textEmptyComment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/default_padding_tiny"
+        android:layout_marginBottom="18dp"
+        android:gravity="center"
+        android:paddingStart="@dimen/default_padding"
+        android:paddingEnd="@dimen/default_padding"
+        android:textColor="@color/grey_dark"
+
+        app:layout_constraintBottom_toTopOf="@id/buttonEmpty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textEmptyTitle"
+        app:layout_goneMarginTop="24dp"
+
+        tools:text="@string/error_internet_message" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/default_padding"
+        android:text="@string/error_refresh"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textEmptyComment"
+        app:layout_constraintVertical_bias="1"
+
+        tools:text="try again"
+        tools:visibility="visible" />
+
+</merge>
