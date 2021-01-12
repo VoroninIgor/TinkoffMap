@@ -3,7 +3,7 @@ package com.voronin.tinkoff.presentation.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.voronin.tinkoff.data.LoadableResult
+import com.voronin.api.base.LoadableResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect

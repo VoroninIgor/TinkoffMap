@@ -1,4 +1,4 @@
-package com.voronin.tinkoff.data.base
+package com.voronin.api.base
 
 import okhttp3.internal.http2.ErrorCode
 

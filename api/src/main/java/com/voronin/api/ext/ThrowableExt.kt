@@ -1,8 +1,9 @@
-package com.voronin.tinkoff.ext
+package com.voronin.api.ext
 
-import com.voronin.tinkoff.data.base.DEFAULT_ERROR_MESSAGE
-import com.voronin.tinkoff.data.base.GeneralError
-import com.voronin.tinkoff.data.base.ParsedError
+
+import com.voronin.api.base.DEFAULT_ERROR_MESSAGE
+import com.voronin.api.base.GeneralError
+import com.voronin.api.base.ParsedError
 import okhttp3.internal.http2.ErrorCode
 
 fun Throwable.parseError(): ParsedError {

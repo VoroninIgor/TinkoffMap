@@ -1,7 +1,7 @@
-package com.voronin.tinkoff.di.module
+package com.voronin.api.di
 
 import com.google.gson.Gson
-import com.voronin.tinkoff.data.TinkoffApiService
+import com.voronin.api.TinkoffApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -12,7 +12,6 @@ import javax.inject.Singleton
 
 @Module
 open class ApiServiceModule {
-
 
     companion object {
         private val BASE_URL = ""

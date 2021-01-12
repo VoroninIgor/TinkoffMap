@@ -11,12 +11,13 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
+import com.voronin.api.base.Failure
+import com.voronin.api.base.LoadableResult
+import com.voronin.api.base.Loading
+import com.voronin.api.base.NetworkError
+import com.voronin.api.base.ParsedError
+import com.voronin.api.base.Success
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.data.Failure
-import com.voronin.tinkoff.data.LoadableResult
-import com.voronin.tinkoff.data.base.NetworkError
-import com.voronin.tinkoff.data.base.ParsedError
-import com.voronin.tinkoff.data.Success
 import kotlinx.android.synthetic.main.view_state_error.view.buttonError
 import kotlinx.android.synthetic.main.view_state_error.view.textErrorDescription
 import kotlinx.android.synthetic.main.view_state_error.view.textErrorTitle
@@ -60,7 +61,7 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     fun <T> setStateFromResult(loadableResult: LoadableResult<T>) {
         when (loadableResult) {
-            is LoadableResult.Loading -> setStateLoading()
+            is Loading -> setStateLoading()
             is Success -> setStateData()
             is Failure -> setStateError(loadableResult.error)
         }

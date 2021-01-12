@@ -1,7 +1,6 @@
-package com.voronin.tinkoff.data
+package com.voronin.api.base
 
-import com.voronin.tinkoff.data.base.ParsedError
-import com.voronin.tinkoff.ext.parseError
+import com.voronin.api.ext.parseError
 
 typealias Loading<T> = LoadableResult.Loading<T>
 typealias Success<T> = LoadableResult.Success<T>

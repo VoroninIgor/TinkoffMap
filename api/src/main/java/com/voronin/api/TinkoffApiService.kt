@@ -1,4 +1,4 @@
-package com.voronin.tinkoff.data
+package com.voronin.api
 
 interface TinkoffApiService {
 

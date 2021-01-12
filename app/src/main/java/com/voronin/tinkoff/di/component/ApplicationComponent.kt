@@ -1,8 +1,8 @@
 package com.voronin.tinkoff.di.component
 
+import com.voronin.api.di.ApiServiceModule
 import com.voronin.tinkoff.TinkoffApplication
 import com.voronin.tinkoff.di.module.ActivityModule
-import com.voronin.tinkoff.di.module.ApiServiceModule
 import com.voronin.tinkoff.di.module.ApplicationModule
 import com.voronin.tinkoff.di.module.FragmentModule
 import dagger.BindsInstance
