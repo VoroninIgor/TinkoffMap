@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.voronin.tinkoffmap">
+    package="com.voronin.tinkoff">
 
     <application
-        android:name=".TinkoffMapApplication"
+        android:name="com.voronin.tinkoff.TinkoffApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,7 +12,7 @@
         android:theme="@style/Theme.TinkoffMap">
 
         <activity
-            android:name="com.voronin.tinkoffmap.presentation.mainactivity.MainActivity"
+            android:name="com.voronin.tinkoff.presentation.mainactivity.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
