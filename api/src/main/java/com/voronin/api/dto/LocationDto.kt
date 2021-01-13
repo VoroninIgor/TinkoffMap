@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class LocationDto(
 
     @SerializedName("latitude")
-    val latitude: Float,
+    val latitude: Double,
 
     @SerializedName("longitude")
-    val longitude: Float,
+    val longitude: Double,
 
     )

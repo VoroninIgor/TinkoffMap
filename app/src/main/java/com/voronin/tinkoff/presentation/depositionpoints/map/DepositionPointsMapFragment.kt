@@ -1,21 +1,24 @@
 package com.voronin.tinkoff.presentation.depositionpoints.map
 
 import android.os.Bundle
-import android.util.Log
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.presentation.base.BaseFragment
+import com.voronin.tinkoff.presentation.base.BaseLocationFragment
+import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import com.voronin.tinkoff.presentation.views.map.MapViewFragmentLifecycleCallback
 import com.voronin.tinkoff.presentation.views.map.MapViewProvider
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapMapView
+import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapStateViewFlipper
 
 
-class DepositionPointsMapFragment : BaseFragment(R.layout.fragment_depositions_points_map), OnMapReadyCallback, MapViewProvider {
+class DepositionPointsMapFragment : BaseLocationFragment(R.layout.fragment_depositions_points_map), OnMapReadyCallback,
+    MapViewProvider {
 
     private val viewModel: DepositionPointsMapViewModel by appViewModels()
 
@@ -25,6 +28,19 @@ class DepositionPointsMapFragment : BaseFragment(R.layout.fragment_depositions_p
 
     override fun callOperations() {
         viewModel.getPoints()
+        requestLocationPermission()
+    }
+
+    override fun onSuccessLocationListener() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onLocationEnabled() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onLocationDenied() {
+        // TODO("Not yet implemented")
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
@@ -37,14 +53,28 @@ class DepositionPointsMapFragment : BaseFragment(R.layout.fragment_depositions_p
 
     override fun onBindViewModel() = with(viewModel) {
         markersLiveData.observe { depositionPoints ->
+            moveCameraToPoints(depositionPoints)
             depositionPoints.forEach {
                 addMarker(it)
             }
         }
         markersProgress.observe {
-            Log.d("", "")
-            // TODO
+            depositionPointsMapStateViewFlipper.changeState(it)
         }
+    }
+
+    private fun moveCameraToPoints(depositionPoints: List<DepositionPoint>) {
+        val locationFirst = depositionPoints.first().location
+        val location = LatLng(
+            locationFirst.latitude,
+            locationFirst.longitude
+        )
+
+        val cameraUpdate = CameraUpdateFactory.newLatLng(location)
+        val zoom = CameraUpdateFactory.zoomTo(16f)
+
+        googleMap?.moveCamera(cameraUpdate)
+        googleMap?.animateCamera(zoom)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -54,21 +84,25 @@ class DepositionPointsMapFragment : BaseFragment(R.layout.fragment_depositions_p
 
     private fun addMarker(depositionPoint: DepositionPoint) {
         val location = depositionPoint.location
-        googleMap?.addMarker(MarkerOptions()
-            .position(
-                LatLng(
-                    location.latitude.toDouble(),
-                    location.longitude.toDouble()
-                )
-            )
-            .title(depositionPoint.partnerName))
+        val marker = MarkerOptions()
+            .position(LatLng(location.latitude, location.longitude))
+            .title(depositionPoint.partnerName)
+
+        googleMap?.addMarker(marker)
     }
 
     private fun initGoogleMap(googleMap: GoogleMap) {
+        googleMap.setOnMarkerClickListener {
+            viewModel.onMarkerClick(it)
+            //TODO
+            DepositionPointFragment.newInstance().show(childFragmentManager, "select_time")
+            true
+        }
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.apply {
             isZoomControlsEnabled = true
             isZoomGesturesEnabled = true
+            isMyLocationButtonEnabled = true
         }
     }
 }

@@ -45,8 +45,8 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     ) {
 
         private val list = arrayOf(
-            DepositionPointsMapFragment() to R.string.app_name,
-            DepositionPointsListFragment() to R.string.error_refresh
+            DepositionPointsMapFragment() to R.string.map,
+            DepositionPointsListFragment() to R.string.list
         )
 
         override fun getCount(): Int = list.size

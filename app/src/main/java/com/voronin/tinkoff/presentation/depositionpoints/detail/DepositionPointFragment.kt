@@ -1,22 +1,23 @@
 package com.voronin.tinkoff.presentation.depositionpoints.detail
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.presentation.base.BaseFragment
+import com.voronin.tinkoff.presentation.base.BaseBottomSheetFragment
 
-class DepositionPointFragment : BaseFragment(R.layout.fragment_depositions_point) {
+class DepositionPointFragment private constructor() : BaseBottomSheetFragment() {
+
+    companion object {
+        fun newInstance(): DepositionPointFragment {
+            return DepositionPointFragment()
+        }
+    }
 
     private val viewModel: DepositionPointViewModel by appViewModels()
 
-    override fun callOperations() {
-
-    }
-
-    override fun onSetupLayout(savedInstanceState: Bundle?) {
-
-    }
-
-    override fun onBindViewModel() = with(viewModel) {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_depositions_point, container, false)
     }
 }

@@ -4,9 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/depositionPointsMapMapView"
+    <com.voronin.tinkoff.presentation.views.StateViewFlipper
+        android:id="@+id/depositionPointsMapStateViewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/depositionPointsMapMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.voronin.tinkoff.presentation.views.StateViewFlipper>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

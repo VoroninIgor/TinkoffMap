@@ -20,6 +20,14 @@
     <string name="error_service">Извините, сервис недоступен,\nпопробуйте повторить попытку позже</string>
 
 
+    <string name="need_location_permission">Для работы приложения необходимо разрешение \"Местоположение\", включить его можно в настройках приложения</string>
+    <string name="need_location_enable">Для работы приложения необходимо включить передачу геоданных, включить ее можно в настройках местоположения</string>
+
+    <string name="map">Карта</string>
+    <string name="list">Список</string>
+
+    <string name="settings">Настройки</string>
+    <string name="cancel">Отмена</string>
 
     <string name="google_maps_key">AIzaSyDqCdu-Nh00k8YZXaaOqHj-Zy6jbyDxx2w</string>
 

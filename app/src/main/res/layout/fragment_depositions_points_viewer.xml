@@ -16,7 +16,9 @@
             android:layout_height="wrap_content"
 
             app:tabIndicatorColor="@color/blue"
-            app:tabMode="scrollable"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
             app:tabIndicatorGravity="stretch"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/cardview_dark_background" />

@@ -1,6 +1,7 @@
 package com.voronin.tinkoff.presentation.depositionpoints.map
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.maps.model.Marker
 import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.data.base.SingleInteractor2
 import com.voronin.tinkoff.data.repository.DepositionPointsRepo
@@ -21,5 +22,9 @@ class DepositionPointsMapViewModel @Inject constructor(
             markersLiveData,
             markersProgress
         ))
+    }
+
+    fun onMarkerClick(marker: Marker?) {
+
     }
 }
