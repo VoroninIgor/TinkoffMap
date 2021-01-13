@@ -56,5 +56,4 @@ abstract class BaseFragment(@LayoutRes layout: Int) : Fragment(layout) {
     @MainThread
     inline fun <reified VM : ViewModel> Fragment.appViewModels() =
         createViewModelLazy(VM::class, { this.viewModelStore }, { viewModelFactory })
-
 }

@@ -19,7 +19,7 @@ data class DepositionPoint(
 
     val fullAddress: String,
 
-    ) : Parcelable, Similarable<DepositionPoint> {
+) : Parcelable, Similarable<DepositionPoint> {
 
     override fun areItemsTheSame(other: DepositionPoint): Boolean {
         return this.location == other.location

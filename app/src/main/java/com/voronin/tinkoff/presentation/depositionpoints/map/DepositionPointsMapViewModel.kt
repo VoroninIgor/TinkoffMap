@@ -18,11 +18,13 @@ class DepositionPointsMapViewModel @Inject constructor(
     val openDepositionPointDetail = MutableLiveData<DepositionPoint>()
 
     fun getPoints() {
-        execute(SingleInteractor2(
-            depositionPointsRepo.getDepositionPoints(),
-            markersLiveData,
-            markersProgress
-        ))
+        execute(
+            SingleInteractor2(
+                depositionPointsRepo.getDepositionPoints(),
+                markersLiveData,
+                markersProgress
+            )
+        )
     }
 
     fun onMarkerClick(depositionPoint: DepositionPoint) {

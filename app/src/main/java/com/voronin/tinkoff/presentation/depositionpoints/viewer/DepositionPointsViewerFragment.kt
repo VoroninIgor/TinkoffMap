@@ -24,7 +24,6 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     }
 
     override fun callOperations() {
-
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
@@ -33,7 +32,6 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     }
 
     override fun onBindViewModel() = with(viewModel) {
-
     }
 
     class DepositionPointsPagerAdapter(

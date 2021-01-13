@@ -15,16 +15,17 @@ class DepositionPointsListViewModel @Inject constructor(
     val markersLiveData = MutableLiveData<List<DepositionPoint>>()
     val markersProgress = MutableLiveData<OperationState>()
 
-    val openDepositionPointDetail= MutableLiveData<DepositionPoint>()
+    val openDepositionPointDetail = MutableLiveData<DepositionPoint>()
 
     fun getPoints() {
-        execute(SingleInteractor2(
-            depositionPointsRepo.getDepositionPoints(),
-            markersLiveData,
-            markersProgress
-        ))
+        execute(
+            SingleInteractor2(
+                depositionPointsRepo.getDepositionPoints(),
+                markersLiveData,
+                markersProgress
+            )
+        )
     }
-
 
     fun onItemSelected(depositionPoint: DepositionPoint) {
         openDepositionPointDetail.postValue(depositionPoint)

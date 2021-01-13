@@ -14,6 +14,5 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBindViewModel() = with(viewModel) {
-
     }
 }

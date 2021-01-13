@@ -17,8 +17,9 @@ import com.voronin.tinkoff.presentation.views.map.MapViewProvider
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapMapView
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapStateViewFlipper
 
-
-class DepositionPointsMapFragment : BaseLocationFragment(R.layout.fragment_depositions_points_map), OnMapReadyCallback,
+class DepositionPointsMapFragment :
+    BaseLocationFragment(R.layout.fragment_depositions_points_map),
+    OnMapReadyCallback,
     MapViewProvider {
 
     private val viewModel: DepositionPointsMapViewModel by appViewModels()
@@ -89,9 +90,11 @@ class DepositionPointsMapFragment : BaseLocationFragment(R.layout.fragment_depos
     private fun addMarker(depositionPoint: DepositionPoint) {
         val location = depositionPoint.location
 
-        val marker = googleMap?.addMarker(MarkerOptions()
-            .position(LatLng(location.latitude, location.longitude))
-            .title(depositionPoint.partnerName))
+        val marker = googleMap?.addMarker(
+            MarkerOptions()
+                .position(LatLng(location.latitude, location.longitude))
+                .title(depositionPoint.partnerName)
+        )
         marker?.tag = depositionPoint
     }
 

@@ -12,7 +12,7 @@ class DepositionPointsRepo @Inject constructor(
 ) {
 
     fun getDepositionPoints(): Single<List<DepositionPoint>> {
-        //FIXME 55.699950, 37.772501
+        // FIXME 55.699950, 37.772501
         return apiClient.getDepositionPoints(55.699950f, 37.772501f, 1000)
             .map { it.map { apiItem -> depositionPointMapper.fromApiToModel(apiItem) } }
     }

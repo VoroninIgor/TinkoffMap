@@ -11,7 +11,7 @@ data class LocationGeo(
 
     val longitude: Double,
 
-    ) : Parcelable, Similarable<LocationGeo> {
+) : Parcelable, Similarable<LocationGeo> {
 
     override fun areItemsTheSame(other: LocationGeo): Boolean {
         return this.latitude == other.latitude && this.longitude == other.longitude

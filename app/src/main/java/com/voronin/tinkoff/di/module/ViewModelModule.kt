@@ -43,5 +43,4 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DepositionPointsViewerViewModel::class)
     abstract fun depositionPointsViewerViewModel(viewModel: DepositionPointsViewerViewModel): ViewModel
-
 }

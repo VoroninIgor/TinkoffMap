@@ -80,7 +80,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
                                     Intent(
                                         Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                                         Uri.parse("package:" + context?.packageName)
-                                    ), REQUEST_SETTINGS
+                                    ),
+                                    REQUEST_SETTINGS
                                 )
                                 dialog.dismiss()
                             }
@@ -112,8 +113,9 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     protected abstract fun onSuccessLocationListener()
 
     @SuppressLint("MissingPermission")
-    private fun onLocationPermissionGranted() = with(locationManager){
-        if (allProviders.contains(GPS_PROVIDER) && !isProviderEnabled(GPS_PROVIDER) && allProviders.contains(LocationManager.NETWORK_PROVIDER) &&
+    private fun onLocationPermissionGranted() = with(locationManager) {
+        if (allProviders.contains(GPS_PROVIDER) && !isProviderEnabled(GPS_PROVIDER) &&
+            allProviders.contains(LocationManager.NETWORK_PROVIDER) &&
             !isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         ) {
             permissionDialog?.dismiss()
@@ -125,7 +127,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
                     startActivityForResult(
                         Intent(
                             Settings.ACTION_LOCATION_SOURCE_SETTINGS
-                        ), REQUEST_SETTINGS
+                        ),
+                        REQUEST_SETTINGS
                     )
                     dialog.dismiss()
                 }

@@ -28,4 +28,4 @@ data class DepositionPointDB(
     @DatabaseField(columnName = "fullAddress")
     val fullAddress: String,
 
-    )
+)

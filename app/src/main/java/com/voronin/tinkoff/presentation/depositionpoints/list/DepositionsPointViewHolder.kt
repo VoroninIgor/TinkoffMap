@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import com.voronin.tinkoff.utils.ext.inflate
-import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPointsAddressInfo
-import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPointsFullAddress
-import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPointsPartnerName
-import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPointsPhones
-import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPointsWorkHours
+import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointAddressInfo
+import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointFullAddress
+import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointPartnerName
+import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointPhones
+import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointWorkHours
 
 class DepositionsPointViewHolder(
     private val onItemSelected: (DepositionPoint) -> Unit,
@@ -19,10 +19,10 @@ class DepositionsPointViewHolder(
     fun bind(item: DepositionPoint) = with(itemView) {
         setOnClickListener { onItemSelected.invoke(item) }
 
-        depositionsPointsPartnerName.text = item.addressInfo
-        depositionsPointsWorkHours.text = item.workHours
-        depositionsPointsPhones.text = item.phones
-        depositionsPointsAddressInfo.text = item.addressInfo
-        depositionsPointsFullAddress.text = item.fullAddress
+        textViewDepositionsPointPartnerName.text = item.addressInfo
+        textViewDepositionsPointWorkHours.text = item.workHours
+        textViewDepositionsPointPhones.text = item.phones
+        textViewDepositionsPointAddressInfo.text = item.addressInfo
+        textViewDepositionsPointFullAddress.text = item.fullAddress
     }
 }

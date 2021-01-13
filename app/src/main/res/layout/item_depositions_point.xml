@@ -6,31 +6,31 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/depositionsPointsPartnerName"
+        android:id="@+id/textViewDepositionsPointPartnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark" />
 
     <TextView
-        android:id="@+id/depositionsPointsWorkHours"
+        android:id="@+id/textViewDepositionsPointWorkHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark" />
 
     <TextView
-        android:id="@+id/depositionsPointsPhones"
+        android:id="@+id/textViewDepositionsPointPhones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark" />
 
     <TextView
-        android:id="@+id/depositionsPointsAddressInfo"
+        android:id="@+id/textViewDepositionsPointAddressInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark" />
 
     <TextView
-        android:id="@+id/depositionsPointsFullAddress"
+        android:id="@+id/textViewDepositionsPointFullAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark" />

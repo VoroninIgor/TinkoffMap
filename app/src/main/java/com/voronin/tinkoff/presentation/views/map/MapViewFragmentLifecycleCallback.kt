@@ -13,7 +13,7 @@ object MapViewFragmentLifecycleCallback : FragmentManager.FragmentLifecycleCallb
         }
     }
 
-    //Due to databinding library view inflation is done onCreateView callback of activity.
+    // Due to databinding library view inflation is done onCreateView callback of activity.
     override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
         if (f is MapViewProvider) {
             f.getMapView()?.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ object MapViewFragmentLifecycleCallback : FragmentManager.FragmentLifecycleCallb
         }
     }
 
-    //Due to databinding library view inflation is done onCreateView callback of activity.
+    // Due to databinding library view inflation is done onCreateView callback of activity.
     override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
         if (f is MapViewProvider && f.getMapView() != null && f.getMapView()!!.isLaidOut) {
             f.getMapView()!!.onStart()
@@ -50,5 +50,4 @@ object MapViewFragmentLifecycleCallback : FragmentManager.FragmentLifecycleCallb
             f.getMapView()?.onPause()
         }
     }
-
 }
