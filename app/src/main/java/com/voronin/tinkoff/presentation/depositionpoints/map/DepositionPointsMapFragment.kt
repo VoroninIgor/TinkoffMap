@@ -1,5 +1,6 @@
 package com.voronin.tinkoff.presentation.depositionpoints.map
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -61,6 +62,9 @@ class DepositionPointsMapFragment : BaseLocationFragment(R.layout.fragment_depos
         markersProgress.observe {
             depositionPointsMapStateViewFlipper.changeState(it)
         }
+        openDepositionPointDetail.observe { point ->
+            DepositionPointFragment.newInstance(point).show(childFragmentManager, "")
+        }
     }
 
     private fun moveCameraToPoints(depositionPoints: List<DepositionPoint>) {
@@ -84,19 +88,22 @@ class DepositionPointsMapFragment : BaseLocationFragment(R.layout.fragment_depos
 
     private fun addMarker(depositionPoint: DepositionPoint) {
         val location = depositionPoint.location
-        val marker = MarkerOptions()
-            .position(LatLng(location.latitude, location.longitude))
-            .title(depositionPoint.partnerName)
 
-        googleMap?.addMarker(marker)
+        val marker = googleMap?.addMarker(MarkerOptions()
+            .position(LatLng(location.latitude, location.longitude))
+            .title(depositionPoint.partnerName))
+        marker?.tag = depositionPoint
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     private fun initGoogleMap(googleMap: GoogleMap) {
-        googleMap.setOnMarkerClickListener {
-            viewModel.onMarkerClick(it)
-            //TODO
-            DepositionPointFragment.newInstance().show(childFragmentManager, "select_time")
-            true
+        googleMap.setOnMarkerClickListener { marker ->
+            if (marker.tag is DepositionPoint) {
+                viewModel.onMarkerClick(marker.tag as DepositionPoint)
+                return@setOnMarkerClickListener true
+            }
+
+            false
         }
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.apply {

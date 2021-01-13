@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.base.BaseBottomSheetFragment
+import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 
 class DepositionPointFragment private constructor() : BaseBottomSheetFragment() {
 
     companion object {
-        fun newInstance(): DepositionPointFragment {
+        fun newInstance(depositionPoint: DepositionPoint): DepositionPointFragment {
             return DepositionPointFragment()
         }
     }

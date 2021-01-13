@@ -1,7 +1,6 @@
 package com.voronin.tinkoff.presentation.depositionpoints.map
 
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.model.Marker
 import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.data.base.SingleInteractor2
 import com.voronin.tinkoff.data.repository.DepositionPointsRepo
@@ -16,6 +15,8 @@ class DepositionPointsMapViewModel @Inject constructor(
     val markersLiveData = MutableLiveData<List<DepositionPoint>>()
     val markersProgress = MutableLiveData<OperationState>()
 
+    val openDepositionPointDetail = MutableLiveData<DepositionPoint>()
+
     fun getPoints() {
         execute(SingleInteractor2(
             depositionPointsRepo.getDepositionPoints(),
@@ -24,7 +25,7 @@ class DepositionPointsMapViewModel @Inject constructor(
         ))
     }
 
-    fun onMarkerClick(marker: Marker?) {
-
+    fun onMarkerClick(depositionPoint: DepositionPoint) {
+        openDepositionPointDetail.postValue(depositionPoint)
     }
 }

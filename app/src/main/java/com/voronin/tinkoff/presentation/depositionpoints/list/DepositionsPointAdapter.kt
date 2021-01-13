@@ -10,8 +10,10 @@ class DepositionsPointAdapter @Inject constructor(
     diffUtilItemCallbackFactory: DiffUtilItemCallbackFactory,
 ) : ListAdapter<DepositionPoint, DepositionsPointViewHolder>(diffUtilItemCallbackFactory.create()) {
 
+    var onItemClicked: (DepositionPoint) -> Unit = {}
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DepositionsPointViewHolder {
-        return DepositionsPointViewHolder(parent)
+        return DepositionsPointViewHolder(onItemClicked, parent)
     }
 
     override fun onBindViewHolder(holder: DepositionsPointViewHolder, position: Int) {

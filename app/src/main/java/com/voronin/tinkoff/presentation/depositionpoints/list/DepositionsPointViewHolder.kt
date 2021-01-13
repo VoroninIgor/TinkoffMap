@@ -12,10 +12,13 @@ import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPoi
 import kotlinx.android.synthetic.main.item_depositions_point.view.depositionsPointsWorkHours
 
 class DepositionsPointViewHolder(
+    private val onItemSelected: (DepositionPoint) -> Unit,
     parent: ViewGroup,
 ) : RecyclerView.ViewHolder(parent.inflate(R.layout.item_depositions_point)) {
 
     fun bind(item: DepositionPoint) = with(itemView) {
+        setOnClickListener { onItemSelected.invoke(item) }
+
         depositionsPointsPartnerName.text = item.addressInfo
         depositionsPointsWorkHours.text = item.workHours
         depositionsPointsPhones.text = item.phones

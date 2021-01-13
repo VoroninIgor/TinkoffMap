@@ -28,7 +28,7 @@ abstract class BaseViewModel : ViewModel() {
         completable: Completable,
         onComplete: () -> Unit,
         onError: ((error: Throwable) -> Unit)? = null,
-    ): Disposable? {
+    ): Disposable {
         val disposable = completable.async()
             .subscribe(onComplete, { onError?.invoke(it) })
         disposable.let { compositeDisposable.add(it) }
