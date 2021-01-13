@@ -19,4 +19,8 @@
     <string name="error_default_message">Что-то пошло не так, обновите\nэкран или проверьте соединение\nс сетью</string>
     <string name="error_service">Извините, сервис недоступен,\nпопробуйте повторить попытку позже</string>
 
+
+
+    <string name="google_maps_key">AIzaSyDqCdu-Nh00k8YZXaaOqHj-Zy6jbyDxx2w</string>
+
 </resources>

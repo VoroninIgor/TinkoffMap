@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.airbnb.lottie.LottieAnimationView
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.data.OperationState
+import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.utils.isServerError
 import kotlinx.android.synthetic.main.view_state_empty.view.animationViewEmpty
 import kotlinx.android.synthetic.main.view_state_empty.view.imageViewLineToCatalog

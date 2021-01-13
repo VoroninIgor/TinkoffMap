@@ -1,8 +1,8 @@
 package com.voronin.tinkoff.presentation.base
 
 import androidx.lifecycle.ViewModel
-import com.voronin.tinkoff.data.Interactor
-import com.voronin.tinkoff.data.Interactor2
+import com.voronin.tinkoff.data.base.Interactor
+import com.voronin.tinkoff.data.base.Interactor2
 import com.voronin.tinkoff.utils.async
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable

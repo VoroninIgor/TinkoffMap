@@ -49,6 +49,17 @@ dependencies {
     // parser
     api 'com.google.code.gson:gson:2.8.6'
 
+    // debug tools
+    def chuckVersion = '1.1.0'
+    debugImplementation("com.readystatesoftware.chuck:library:$chuckVersion") {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        exclude group: 'com.squareup.okhttp3', module: 'logging-interceptor'
+    }
+    releaseImplementation("com.readystatesoftware.chuck:library-no-op:$chuckVersion") {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        exclude group: 'com.squareup.okhttp3', module: 'logging-interceptor'
+    }
+
     // dagger 2
     def dagger_version = "2.29.1"
     api "com.google.dagger:dagger:$dagger_version"
