@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import com.voronin.tinkoff.utils.ext.inflate
+import kotlinx.android.synthetic.main.item_depositions_point.view.imageViewDepositionsPointPartnerIcon
+import kotlinx.android.synthetic.main.item_depositions_point.view.imageViewDepositionsPointViewedIcon
 import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointAddressInfo
 import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointFullAddress
 import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointPartnerName
@@ -24,5 +26,8 @@ class DepositionsPointViewHolder(
         textViewDepositionsPointPhones.text = item.phones
         textViewDepositionsPointAddressInfo.text = item.addressInfo
         textViewDepositionsPointFullAddress.text = item.fullAddress
+
+        imageViewDepositionsPointPartnerIcon
+        imageViewDepositionsPointViewedIcon
     }
 }

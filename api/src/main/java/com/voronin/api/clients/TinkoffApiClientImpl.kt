@@ -1,6 +1,7 @@
 package com.voronin.api.clients
 
 import com.voronin.api.TinkoffApiService
+import com.voronin.api.dto.DepositionPartnerDto
 import com.voronin.api.dto.DepositionPointDto
 import com.voronin.api.mappers.ImageUrlMapper
 import io.reactivex.Single
@@ -22,5 +23,10 @@ internal class TinkoffApiClientImpl @Inject constructor(
                     it.copy(image = imageUrlMapper.getImageUrl(it.partnerName))
                 }
             }
+    }
+
+    override fun getDepositionPartners(accountType: String): Single<List<DepositionPartnerDto>> {
+        return api.getDepositionPartners(accountType)
+            .map { it.payload }
     }
 }

@@ -1,38 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageViewDepositionsPointPartnerIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageViewDepositionsPointViewedIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:src="@color/black" />
 
     <TextView
         android:id="@+id/textViewDepositionsPointPartnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark" />
+        android:textColor="@color/dark"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewDepositionsPointPartnerIcon"
+
+        tools:text="PartnerName" />
 
     <TextView
         android:id="@+id/textViewDepositionsPointWorkHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark" />
+        android:textColor="@color/dark"
+
+        app:layout_constraintStart_toStartOf="@id/textViewDepositionsPointPartnerName"
+        app:layout_constraintTop_toBottomOf="@id/textViewDepositionsPointPartnerName"
+
+        tools:text="WorkHours" />
 
     <TextView
         android:id="@+id/textViewDepositionsPointPhones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark" />
+        android:textColor="@color/dark"
+
+        app:layout_constraintStart_toStartOf="@id/textViewDepositionsPointWorkHours"
+        app:layout_constraintTop_toBottomOf="@id/textViewDepositionsPointWorkHours"
+
+        tools:text="PointPhones" />
 
     <TextView
         android:id="@+id/textViewDepositionsPointAddressInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark" />
+        android:textColor="@color/dark"
+
+        app:layout_constraintStart_toStartOf="@id/textViewDepositionsPointPhones"
+        app:layout_constraintTop_toBottomOf="@id/textViewDepositionsPointPhones"
+
+        tools:text="AddressInfo" />
 
     <TextView
         android:id="@+id/textViewDepositionsPointFullAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark" />
+        android:textColor="@color/dark"
 
-</LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textViewDepositionsPointAddressInfo"
+        app:layout_constraintTop_toBottomOf="@id/textViewDepositionsPointAddressInfo"
+
+        tools:text="FullAddress" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
