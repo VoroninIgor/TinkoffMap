@@ -21,7 +21,7 @@ interface DepositionPointDao {
     fun insertAll(vararg list: DepositionPointEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: DepositionPointEntity): Long
+    fun insert(item: DepositionPointEntity)
 
     @Query("DELETE from $TABLE_NAME")
     fun clear()

@@ -19,5 +19,8 @@ interface RequestWithDepositionPointEntityDao {
     fun getRequestWithPoints(): Single<List<RequestWithDepositionPointView>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(list: RequestWithDepositionPointEntity): Long
+    fun insert(list: RequestWithDepositionPointEntity)
+
+    @Query("DELETE FROM $TABLE_NAME WHERE requestId = :id")
+    fun delete(id: Long)
 }

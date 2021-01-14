@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class DepositionPointDto(
 
+    @SerializedName("externalId")
+    val externalId: String,
+
     @SerializedName("partnerName")
     val partnerName: String,
 

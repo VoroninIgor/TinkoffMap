@@ -33,6 +33,7 @@ class DepositionPointsRepo @Inject constructor(
                 val req = it.request
                 if (time - req.timestamp > STORED_REQ_TIME) {
                     database.depositionPointReqDao().delete(req) // удаление запроса по истечению времени
+                    database.requestWithDepositionPointEntityDao().delete(req.id) // удаление запроса по истечению времени
                 } else {
                     if (req.latitude == latitude && req.longitude == longitude && req.radius == radius) {
                         return@flatMap Single.just(
@@ -62,13 +63,13 @@ class DepositionPointsRepo @Inject constructor(
         val reqId = database.depositionPointReqDao().insert(req)
 
         list.forEach {
-            val pointId = database.depositionPointDao().insert(
-                depositionPointMapper.fromModelToEntity(it)
-            )
+            val point = depositionPointMapper.fromModelToEntity(it)
+
+            database.depositionPointDao().insert(point)
             database.requestWithDepositionPointEntityDao().insert(
                 RequestWithDepositionPointEntity(
                     requestId = reqId,
-                    pointId = pointId
+                    pointId = point.id
                 )
             )
         }

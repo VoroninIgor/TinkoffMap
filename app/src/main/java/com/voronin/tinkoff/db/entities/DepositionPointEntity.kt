@@ -8,12 +8,12 @@ import com.voronin.tinkoff.presentation.depositionpoints.models.ImageInfo
 import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 
 @Entity(
-    tableName = DepositionPointDao.TABLE_NAME,
+    tableName = DepositionPointDao.TABLE_NAME
 )
 data class DepositionPointEntity(
 
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    @PrimaryKey
+    val id: String,
 
     @ColumnInfo(name = "location")
     val location: LocationGeo,

@@ -7,6 +7,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class DepositionPoint(
 
+    val id: String,
+
     val partnerName: String,
 
     val location: LocationGeo,
@@ -24,7 +26,7 @@ data class DepositionPoint(
 ) : Parcelable, Similarable<DepositionPoint> {
 
     override fun areItemsTheSame(other: DepositionPoint): Boolean {
-        return this.partnerName == other.partnerName
+        return this.id == other.id
     }
 
     override fun areContentsTheSame(other: DepositionPoint): Boolean {

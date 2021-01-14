@@ -13,6 +13,7 @@ class DepositionPointMapper @Inject constructor() {
 
     fun fromApiToModel(api: DepositionPointDto): DepositionPoint {
         return DepositionPoint(
+            id = api.externalId,
             partnerName = api.partnerName,
             location = fromApiToModel(api.location),
             workHours = api.workHours ?: "",
@@ -25,6 +26,7 @@ class DepositionPointMapper @Inject constructor() {
 
     fun fromModelToEntity(model: DepositionPoint): DepositionPointEntity {
         return DepositionPointEntity(
+            id = model.id,
             partnerName = model.partnerName,
             location = model.location,
             workHours = model.workHours,
@@ -37,6 +39,7 @@ class DepositionPointMapper @Inject constructor() {
 
     fun fromEntityToModel(entity: DepositionPointEntity): DepositionPoint {
         return DepositionPoint(
+            id = entity.id,
             partnerName = entity.partnerName,
             location = entity.location,
             workHours = entity.workHours,
