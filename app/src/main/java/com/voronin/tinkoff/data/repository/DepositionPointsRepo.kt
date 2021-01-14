@@ -2,6 +2,7 @@ package com.voronin.tinkoff.data.repository
 
 import com.voronin.api.clients.TinkoffApiClient
 import com.voronin.tinkoff.data.mappers.DepositionPointMapper
+import com.voronin.tinkoff.db.DatabaseStorage
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import io.reactivex.Single
 import javax.inject.Inject
@@ -9,6 +10,7 @@ import javax.inject.Inject
 class DepositionPointsRepo @Inject constructor(
     private val apiClient: TinkoffApiClient,
     private val depositionPointMapper: DepositionPointMapper,
+    private val databaseStorage: DatabaseStorage,
 ) {
 
     companion object {

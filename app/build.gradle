@@ -16,7 +16,6 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -62,6 +61,13 @@ dependencies {
 
     // lottie
     implementation "com.airbnb.android:lottie:3.5.0"
+
+    // room
+    def room_version = "2.2.6"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     // google map
     implementation 'com.google.maps.android:android-maps-utils:2.2.0'

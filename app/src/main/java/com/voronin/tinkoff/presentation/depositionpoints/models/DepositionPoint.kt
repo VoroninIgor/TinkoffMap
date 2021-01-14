@@ -1,10 +1,7 @@
 package com.voronin.tinkoff.presentation.depositionpoints.models
 
-import android.os.Parcelable
 import com.voronin.tinkoff.utils.list.Similarable
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class DepositionPoint(
 
     val partnerName: String,
@@ -19,10 +16,12 @@ data class DepositionPoint(
 
     val fullAddress: String,
 
-) : Parcelable, Similarable<DepositionPoint> {
+    val images: ImageInfo? = null,
+
+) : Similarable<DepositionPoint> {
 
     override fun areItemsTheSame(other: DepositionPoint): Boolean {
-        return this.location == other.location
+        return this.partnerName == other.partnerName
     }
 
     override fun areContentsTheSame(other: DepositionPoint): Boolean {
