@@ -10,4 +10,4 @@ data class LocationDto(
     @SerializedName("longitude")
     val longitude: Double,
 
-    )
+)

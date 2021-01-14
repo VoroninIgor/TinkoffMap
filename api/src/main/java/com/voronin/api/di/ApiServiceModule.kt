@@ -1,7 +1,6 @@
 package com.voronin.api.di
 
 import android.content.Context
-import android.text.TextUtils
 import com.google.gson.Gson
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.voronin.api.TinkoffApiService
@@ -11,7 +10,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.HttpURLConnection
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 

@@ -18,4 +18,3 @@ fun Throwable.parseError(): ParsedError {
         else -> GeneralError(ErrorCode.INTERNAL_ERROR, DEFAULT_ERROR_MESSAGE)
     }
 }
-

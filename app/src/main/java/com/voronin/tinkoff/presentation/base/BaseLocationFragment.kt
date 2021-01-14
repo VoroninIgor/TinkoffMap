@@ -7,17 +7,14 @@ import android.content.Intent
 import android.location.LocationManager
 import android.location.LocationManager.GPS_PROVIDER
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 import io.reactivex.disposables.Disposable
 

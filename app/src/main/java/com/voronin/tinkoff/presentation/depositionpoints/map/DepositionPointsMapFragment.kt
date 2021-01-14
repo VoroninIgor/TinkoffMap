@@ -84,7 +84,7 @@ class DepositionPointsMapFragment private constructor() :
             locationFirst.latitude,
             locationFirst.longitude
         )
-        //lastLocation
+        // lastLocation
         val cameraUpdate = CameraUpdateFactory.newLatLng(location)
         val zoom = CameraUpdateFactory.zoomTo(16f)
 

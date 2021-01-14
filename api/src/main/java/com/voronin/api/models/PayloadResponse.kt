@@ -13,4 +13,4 @@ internal data class PayloadResponse<T>(
     @SerializedName("trackingId")
     val trackingId: String,
 
-    )
+)

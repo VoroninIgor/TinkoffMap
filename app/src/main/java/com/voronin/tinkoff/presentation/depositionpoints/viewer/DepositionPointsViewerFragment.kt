@@ -32,7 +32,6 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     }
 
     override fun onBindViewModel() = with(viewModel) {
-
     }
 
     class DepositionPointsPagerAdapter(
