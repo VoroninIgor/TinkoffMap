@@ -34,4 +34,4 @@ data class DepositionPointEntity(
     @ColumnInfo(name = "images")
     val images: ImageInfo,
 
-    )
+)

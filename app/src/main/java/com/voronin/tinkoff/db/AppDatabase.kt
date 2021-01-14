@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.voronin.tinkoff.db.AppDatabase.Companion.DATABASE_VERSION
-import com.voronin.tinkoff.db.dao.DepositionPointRequestDao
 import com.voronin.tinkoff.db.dao.DepositionPointDao
+import com.voronin.tinkoff.db.dao.DepositionPointRequestDao
 import com.voronin.tinkoff.db.dao.RequestWithDepositionPointEntityDao
 import com.voronin.tinkoff.db.entities.DepositionPointEntity
 import com.voronin.tinkoff.db.entities.DepositionPointRequestEntity

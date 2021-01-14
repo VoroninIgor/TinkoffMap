@@ -8,7 +8,7 @@ import io.reactivex.Single
 @Dao
 interface RequestWithDepositionPointEntityDao {
 
-    companion object{
+    companion object {
         const val TABLE_NAME = "request_with_deposition_point"
     }
 
