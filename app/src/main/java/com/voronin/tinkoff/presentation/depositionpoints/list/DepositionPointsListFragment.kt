@@ -20,9 +20,7 @@ class DepositionPointsListFragment : BaseFragment(R.layout.fragment_depositions_
 
     @Inject lateinit var depositionsPointAdapter: DepositionsPointAdapter
 
-    override fun callOperations() {
-//        viewModel.getPoints(lastLocation)
-    }
+    override fun callOperations() = Unit
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
         depositionPointsListRecyclerView.adapter = depositionsPointAdapter
@@ -30,10 +28,10 @@ class DepositionPointsListFragment : BaseFragment(R.layout.fragment_depositions_
     }
 
     override fun onBindViewModel() = with(viewModel) {
-        markersLiveData.observe { points ->
+        depositionsListViewModel.markersLiveData.observe { points ->
             depositionsPointAdapter.submitList(points)
         }
-        markersProgress.observe {
+        depositionsListViewModel.markersProgress.observe {
             depositionPointsListStateViewFlipper.changeState(it)
         }
         openDepositionPointDetail.observe { point ->

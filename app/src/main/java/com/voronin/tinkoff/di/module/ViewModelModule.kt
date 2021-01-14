@@ -8,6 +8,7 @@ import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointV
 import com.voronin.tinkoff.presentation.depositionpoints.list.DepositionPointsListViewModel
 import com.voronin.tinkoff.presentation.depositionpoints.map.DepositionPointsMapViewModel
 import com.voronin.tinkoff.presentation.depositionpoints.viewer.DepositionPointsViewerViewModel
+import com.voronin.tinkoff.presentation.depositionpoints.viewer.DepositionsListViewModel
 import com.voronin.tinkoff.presentation.mainactivity.MainActivityViewModel
 import dagger.Binds
 import dagger.Module
@@ -43,4 +44,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DepositionPointsViewerViewModel::class)
     abstract fun depositionPointsViewerViewModel(viewModel: DepositionPointsViewerViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DepositionsListViewModel::class)
+    abstract fun pointViewModel(viewModel: DepositionsListViewModel): ViewModel
 }

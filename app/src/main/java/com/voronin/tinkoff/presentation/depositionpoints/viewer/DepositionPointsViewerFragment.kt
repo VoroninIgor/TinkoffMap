@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.presentation.base.BaseFragment
+import com.voronin.tinkoff.presentation.base.BaseLocationFragment
 import com.voronin.tinkoff.presentation.depositionpoints.list.DepositionPointsListFragment
 import com.voronin.tinkoff.presentation.depositionpoints.map.DepositionPointsMapFragment
 import kotlinx.android.synthetic.main.fragment_depositions_points_viewer.tabsDepositionsPoint
 import kotlinx.android.synthetic.main.fragment_depositions_points_viewer.viewPagerDepositionsPoint
 
-class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_depositions_points_viewer) {
+class DepositionPointsViewerFragment : BaseLocationFragment(R.layout.fragment_depositions_points_viewer) {
 
     private val viewModel: DepositionPointsViewerViewModel by appViewModels()
 
@@ -23,12 +23,27 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
         )
     }
 
-    override fun callOperations() {
+    override fun onSuccessLocationListener() {
+        lastLocation?.let {
+            viewModel.depositionsListViewModel.getPoints(it)
+        }
     }
+
+    override fun onLocationEnabled() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onLocationDenied() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun callOperations() = Unit
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
         viewPagerDepositionsPoint.adapter = adapter
         tabsDepositionsPoint.setupWithViewPager(viewPagerDepositionsPoint)
+
+        requestLocationPermission()
     }
 
     override fun onBindViewModel() = with(viewModel) {

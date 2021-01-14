@@ -32,7 +32,7 @@ data class RequestWithDepositionPointView(
     @Relation(
         parentColumn = "id",
         entity = DepositionPointEntity::class,
-        entityColumn = "location",
+        entityColumn = "id",
         associateBy = Junction(
             value = RequestWithDepositionPointEntity::class,
             parentColumn = "requestId",

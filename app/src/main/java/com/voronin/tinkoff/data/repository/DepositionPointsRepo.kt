@@ -19,7 +19,7 @@ class DepositionPointsRepo @Inject constructor(
     private val database: AppDatabase = databaseStorage.db
 
     companion object {
-        private const val STORED_REQ_TIME = 1 * 60 * 1000L // FIXME
+        private const val STORED_REQ_TIME = 10 * 60 * 1000L
     }
 
     fun getDepositionPoints(
@@ -33,7 +33,7 @@ class DepositionPointsRepo @Inject constructor(
                 val req = it.request
                 if (time - req.timestamp > STORED_REQ_TIME) {
                     database.depositionPointReqDao().delete(req) // удаление запроса по истечению времени
-                    database.requestWithDepositionPointEntityDao().delete(req.id) // удаление запроса по истечению времени
+                    database.requestWithDepositionPointEntityDao().delete(req.id)
                 } else {
                     if (req.latitude == latitude && req.longitude == longitude && req.radius == radius) {
                         return@flatMap Single.just(

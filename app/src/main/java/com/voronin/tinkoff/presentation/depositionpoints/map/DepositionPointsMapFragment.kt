@@ -9,7 +9,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.presentation.base.BaseLocationFragment
+import com.voronin.tinkoff.presentation.base.BaseFragment
 import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import com.voronin.tinkoff.presentation.views.map.MapViewFragmentLifecycleCallback
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_depositions_points_map.deposition
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapStateViewFlipper
 
 class DepositionPointsMapFragment private constructor() :
-    BaseLocationFragment(R.layout.fragment_depositions_points_map),
+    BaseFragment(R.layout.fragment_depositions_points_map),
     OnMapReadyCallback,
     MapViewProvider {
 
@@ -34,23 +34,7 @@ class DepositionPointsMapFragment private constructor() :
 
     override fun getMapView(): MapView? = depositionPointsMapMapView
 
-    override fun callOperations() {
-        viewModel.getPoints(lastLocation)
-    }
-
-    override fun onSuccessLocationListener() {
-        lastLocation?.let {
-            viewModel.getPoints(it)
-        }
-    }
-
-    override fun onLocationEnabled() {
-        // TODO("Not yet implemented")
-    }
-
-    override fun onLocationDenied() {
-        // TODO("Not yet implemented")
-    }
+    override fun callOperations() = Unit
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
         depositionPointsMapMapView.getMapAsync(this)
@@ -58,17 +42,16 @@ class DepositionPointsMapFragment private constructor() :
         requireActivity().supportFragmentManager.registerFragmentLifecycleCallbacks(
             MapViewFragmentLifecycleCallback, true
         )
-        requestLocationPermission()
     }
 
     override fun onBindViewModel() = with(viewModel) {
-        markersLiveData.observe { depositionPoints ->
+        depositionsListViewModel.markersLiveData.observe { depositionPoints ->
             moveCameraToPoints(depositionPoints)
             depositionPoints.forEach {
                 addMarker(it)
             }
         }
-        markersProgress.observe {
+        depositionsListViewModel.markersProgress.observe {
             depositionPointsMapStateViewFlipper.changeState(it)
         }
         openDepositionPointDetail.observe { point ->
@@ -84,9 +67,9 @@ class DepositionPointsMapFragment private constructor() :
             locationFirst.latitude,
             locationFirst.longitude
         )
-        // lastLocation
+
         val cameraUpdate = CameraUpdateFactory.newLatLng(location)
-        val zoom = CameraUpdateFactory.zoomTo(16f)
+        val zoom = CameraUpdateFactory.zoomTo(8f)
 
         googleMap?.moveCamera(cameraUpdate)
         googleMap?.animateCamera(zoom)
