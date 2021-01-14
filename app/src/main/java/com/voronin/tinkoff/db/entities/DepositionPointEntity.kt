@@ -12,7 +12,9 @@ import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 )
 data class DepositionPointEntity(
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+
     @ColumnInfo(name = "location")
     val location: LocationGeo,
 

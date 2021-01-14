@@ -1,7 +1,10 @@
 package com.voronin.tinkoff.db.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.voronin.tinkoff.db.entities.RequestWithDepositionPointEntity
 import com.voronin.tinkoff.db.entities.RequestWithDepositionPointView
 import io.reactivex.Single
 
@@ -14,4 +17,7 @@ interface RequestWithDepositionPointEntityDao {
 
     @Query("SELECT * FROM ${DepositionPointRequestDao.TABLE_NAME}")
     fun getRequestWithPoints(): Single<List<RequestWithDepositionPointView>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(list: RequestWithDepositionPointEntity): Long
 }

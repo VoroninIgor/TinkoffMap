@@ -19,7 +19,7 @@ data class DepositionPoint(
 
     val fullAddress: String,
 
-    val images: ImageInfo? = null,
+    val images: ImageInfo,
 
 ) : Parcelable, Similarable<DepositionPoint> {
 

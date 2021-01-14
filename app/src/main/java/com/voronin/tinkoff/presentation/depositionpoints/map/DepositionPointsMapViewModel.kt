@@ -24,6 +24,7 @@ class DepositionPointsMapViewModel @Inject constructor(
                 depositionPointsRepo.getDepositionPoints(
                     latitude = lastLocation?.latitude ?: 0.0,
                     longitude = lastLocation?.longitude ?: 0.0,
+                    radius = 1000 // FIXME
                 ),
                 markersLiveData,
                 markersProgress

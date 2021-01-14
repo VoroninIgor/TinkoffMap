@@ -11,8 +11,8 @@ import com.voronin.tinkoff.db.dao.RequestWithDepositionPointEntityDao
     primaryKeys = ["requestId", "pointId"]
 )
 data class RequestWithDepositionPointEntity(
-    val requestId: Int,
-    val pointId: Int,
+    val requestId: Long,
+    val pointId: Long,
 )
 
 data class RequestWithDepositionPointView(

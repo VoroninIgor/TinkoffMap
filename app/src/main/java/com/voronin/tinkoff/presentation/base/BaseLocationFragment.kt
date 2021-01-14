@@ -83,7 +83,12 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
 
     @SuppressLint("MissingPermission")
     private fun onLocationPermissionGranted() = with(locationManager) {
-        if (!allProviders.contains(GPS_PROVIDER) || isProviderEnabled(GPS_PROVIDER) || !allProviders.contains(LocationManager.NETWORK_PROVIDER) || isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+        val hasNotGpsProvider = !allProviders.contains(GPS_PROVIDER)
+        val isProviderEnabled = isProviderEnabled(GPS_PROVIDER)
+        val hasNotNetworkProvider = !allProviders.contains(LocationManager.NETWORK_PROVIDER)
+        val isNetworkProviderEnabled = isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+        if (hasNotGpsProvider || isProviderEnabled || hasNotNetworkProvider || isNetworkProviderEnabled) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocationClient.lastLocation.addOnSuccessListener {
                 if (it != null) {

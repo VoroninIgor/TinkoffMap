@@ -30,7 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun depositionPointDao(): DepositionPointDao
 
-    abstract fun depositionPointCacheDao(): DepositionPointRequestDao
+    abstract fun depositionPointReqDao(): DepositionPointRequestDao
 
     abstract fun requestWithDepositionPointEntityDao(): RequestWithDepositionPointEntityDao
 }

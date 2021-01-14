@@ -11,7 +11,7 @@ import com.voronin.tinkoff.db.dao.DepositionPointRequestDao
 data class DepositionPointRequestEntity(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long = 0,
 
     @ColumnInfo(name = "latitude")
     val latitude: Double,
@@ -25,4 +25,15 @@ data class DepositionPointRequestEntity(
     @ColumnInfo(name = "timestamp")
     val timestamp: Long,
 
-)
+) {
+    companion object {
+        fun createInstance(latitude: Double, longitude: Double, radius: Int): DepositionPointRequestEntity {
+            return DepositionPointRequestEntity(
+                latitude = latitude,
+                longitude = longitude,
+                radius = radius,
+                timestamp = System.currentTimeMillis()
+            )
+        }
+    }
+}
