@@ -15,5 +15,4 @@ interface TinkoffApiClient {
     fun getDepositionPartners(
         accountType: String,
     ): Single<List<DepositionPartnerDto>>
-
 }
