@@ -1,6 +1,6 @@
 package com.voronin.api.mappers
 
-import com.voronin.api.dto.ImageInfo
+import com.voronin.api.dto.ImageInfoDto
 import javax.inject.Inject
 
 class ImageUrlMapper @Inject constructor() {
@@ -12,8 +12,8 @@ class ImageUrlMapper @Inject constructor() {
         private const val XXHDPI = "xxhdpi"
     }
 
-    fun getImageUrl(partnerName: String): ImageInfo {
-        return ImageInfo(
+    fun getImageUrl(partnerName: String): ImageInfoDto {
+        return ImageInfoDto(
             smallImageUrl = partnerName.getPartnerImageUrl(MDPI),
             mediumImageUrl = partnerName.getPartnerImageUrl(HDPI),
             highImageUrl = partnerName.getPartnerImageUrl(XDPI),

@@ -1,6 +1,6 @@
 package com.voronin.api.dto
 
-data class ImageInfo(
+data class ImageInfoDto(
 
     /** mdpi */
     val smallImageUrl: String = "",
