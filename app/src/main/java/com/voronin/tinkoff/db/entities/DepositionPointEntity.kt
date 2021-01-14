@@ -7,16 +7,17 @@ import com.voronin.tinkoff.db.dao.DepositionPointDao
 import com.voronin.tinkoff.presentation.depositionpoints.models.ImageInfo
 import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 
-@Entity(tableName = DepositionPointDao.TABLE_NAME)
+@Entity(
+    tableName = DepositionPointDao.TABLE_NAME,
+)
 data class DepositionPointEntity(
 
-    @PrimaryKey var id: Int,
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "location")
+    val location: LocationGeo,
 
     @ColumnInfo(name = "partnerName")
     val partnerName: String,
-
-    @ColumnInfo(name = "location")
-    val location: LocationGeo,
 
     @ColumnInfo(name = "workHours")
     val workHours: String,
@@ -33,4 +34,4 @@ data class DepositionPointEntity(
     @ColumnInfo(name = "images")
     val images: ImageInfo,
 
-)
+    )
