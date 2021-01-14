@@ -9,7 +9,7 @@ internal class TinkoffApiClientImpl @Inject constructor(
      val api: TinkoffApiService,
 ) : TinkoffApiClient {
 
-    override fun getDepositionPoints(latitude: Float, longitude: Float, radius: Int): Single<List<DepositionPointDto>> {
+    override fun getDepositionPoints(latitude: Double, longitude: Double, radius: Int): Single<List<DepositionPointDto>> {
         return api.getAllDepositionPoints(
              latitude = latitude,
              longitude = longitude,

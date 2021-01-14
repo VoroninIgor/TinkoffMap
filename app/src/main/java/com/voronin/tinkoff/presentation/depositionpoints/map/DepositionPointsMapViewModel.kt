@@ -6,6 +6,7 @@ import com.voronin.tinkoff.data.base.SingleInteractor2
 import com.voronin.tinkoff.data.repository.DepositionPointsRepo
 import com.voronin.tinkoff.presentation.base.BaseViewModel
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
+import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 import javax.inject.Inject
 
 class DepositionPointsMapViewModel @Inject constructor(
@@ -17,10 +18,13 @@ class DepositionPointsMapViewModel @Inject constructor(
 
     val openDepositionPointDetail = MutableLiveData<DepositionPoint>()
 
-    fun getPoints() {
+    fun getPoints(lastLocation: LocationGeo? = null) {
         execute(
             SingleInteractor2(
-                depositionPointsRepo.getDepositionPoints(),
+                depositionPointsRepo.getDepositionPoints(
+                    latitude = lastLocation?.latitude ?: 0.0,
+                    longitude = lastLocation?.longitude ?: 0.0,
+                ),
                 markersLiveData,
                 markersProgress
             )

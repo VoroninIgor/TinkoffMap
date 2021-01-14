@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.location.LocationManager.GPS_PROVIDER
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -40,25 +39,23 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
 
     private var disposable: Disposable? = null
     private var defaultLocationGeo = false
-    private var enableGeo = false
-    private var permissionDialog: AlertDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        super.onViewCreated(view, savedInstanceState)
         createLocationRequest()
         createLocationCallback()
     }
 
     override fun onPause() {
-        if (this::fusedLocationClient.isInitialized) {
+        if (::fusedLocationClient.isInitialized) {
             fusedLocationClient.removeLocationUpdates(locationCallback)
         }
         super.onPause()
     }
 
     fun requestLocationPermission(fromResult: Boolean = false) {
-        permissionDialog?.dismiss()
+//        permissionDialog?.dismiss()
         disposable?.dispose()
         disposable = RxPermissions(this).requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -66,33 +63,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         )
             .subscribe {
                 if (it.granted) {
-                    enableGeo = true
-//                    onLocationPermissionGranted()
-                } else if (!it.shouldShowRequestPermissionRationale) {
-                    if (!enableGeo && !fromResult) {
-                        permissionDialog?.dismiss()
-                        permissionDialog = AlertDialog.Builder(requireContext())
-                            .setTitle(" ")
-                            .setIcon(R.drawable.ic_gps)
-                            .setMessage(R.string.need_location_permission)
-                            .setPositiveButton(getString(R.string.settings)) { dialog, _ ->
-                                startActivityForResult(
-                                    Intent(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                        Uri.parse("package:" + context?.packageName)
-                                    ),
-                                    REQUEST_SETTINGS
-                                )
-                                dialog.dismiss()
-                            }
-                            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                                dialog.dismiss()
-                                onLocationDenied()
-                            }
-                            .create()
-                        permissionDialog?.show()
-                    }
-                } else {
+                    onLocationPermissionGranted()
+                } else if (it.shouldShowRequestPermissionRationale) {
                     onLocationDenied()
                 }
             }
@@ -114,31 +86,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
 
     @SuppressLint("MissingPermission")
     private fun onLocationPermissionGranted() = with(locationManager) {
-        if (allProviders.contains(GPS_PROVIDER) && !isProviderEnabled(GPS_PROVIDER) &&
-            allProviders.contains(LocationManager.NETWORK_PROVIDER) &&
-            !isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        ) {
-            permissionDialog?.dismiss()
-            permissionDialog = AlertDialog.Builder(requireContext())
-                .setTitle(" ")
-                .setIcon(R.drawable.ic_gps)
-                .setMessage(R.string.need_location_enable)
-                .setPositiveButton(getString(R.string.settings)) { dialog, _ ->
-                    startActivityForResult(
-                        Intent(
-                            Settings.ACTION_LOCATION_SOURCE_SETTINGS
-                        ),
-                        REQUEST_SETTINGS
-                    )
-                    dialog.dismiss()
-                }
-                .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                    onLocationDenied()
-                    dialog.dismiss()
-                }
-                .create()
-            permissionDialog?.show()
-        } else {
+        if (!allProviders.contains(GPS_PROVIDER) || isProviderEnabled(GPS_PROVIDER) || !allProviders.contains(LocationManager.NETWORK_PROVIDER) || isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocationClient.lastLocation.addOnSuccessListener {
                 if (it != null) {

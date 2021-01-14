@@ -10,12 +10,18 @@ import javax.inject.Inject
 
 class DepositionPointsListFragment : BaseFragment(R.layout.fragment_depositions_points_list) {
 
+    companion object {
+        fun newInstance(): DepositionPointsListFragment {
+            return DepositionPointsListFragment()
+        }
+    }
+
     private val viewModel: DepositionPointsListViewModel by appViewModels()
 
     @Inject lateinit var depositionsPointAdapter: DepositionsPointAdapter
 
     override fun callOperations() {
-        viewModel.getPoints()
+//        viewModel.getPoints(lastLocation)
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {

@@ -32,6 +32,7 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     }
 
     override fun onBindViewModel() = with(viewModel) {
+
     }
 
     class DepositionPointsPagerAdapter(
@@ -43,8 +44,8 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     ) {
 
         private val list = arrayOf(
-            DepositionPointsMapFragment() to R.string.map,
-            DepositionPointsListFragment() to R.string.list
+            DepositionPointsMapFragment.newInstance() to R.string.map,
+            DepositionPointsListFragment.newInstance() to R.string.list
         )
 
         override fun getCount(): Int = list.size

@@ -10,8 +10,8 @@ internal interface TinkoffApiService {
 
     @GET("deposition_points")
     fun getAllDepositionPoints(
-        @Query("latitude") latitude: Float,
-        @Query("longitude") longitude: Float,
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
         @Query("radius") radius: Int,
     ): Single<PayloadResponse<List<DepositionPointDto>>>
 

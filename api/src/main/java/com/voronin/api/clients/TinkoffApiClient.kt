@@ -6,8 +6,8 @@ import io.reactivex.Single
 interface TinkoffApiClient {
 
     fun getDepositionPoints(
-        latitude: Float,
-        longitude: Float,
+        latitude: Double,
+        longitude: Double,
         radius: Int,
     ): Single<List<DepositionPointDto>>
 }

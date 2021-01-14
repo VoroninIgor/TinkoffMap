@@ -17,10 +17,16 @@ import com.voronin.tinkoff.presentation.views.map.MapViewProvider
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapMapView
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapStateViewFlipper
 
-class DepositionPointsMapFragment :
+class DepositionPointsMapFragment private constructor() :
     BaseLocationFragment(R.layout.fragment_depositions_points_map),
     OnMapReadyCallback,
     MapViewProvider {
+
+    companion object {
+        fun newInstance(): DepositionPointsMapFragment {
+            return DepositionPointsMapFragment()
+        }
+    }
 
     private val viewModel: DepositionPointsMapViewModel by appViewModels()
 
@@ -29,12 +35,13 @@ class DepositionPointsMapFragment :
     override fun getMapView(): MapView? = depositionPointsMapMapView
 
     override fun callOperations() {
-        viewModel.getPoints()
-        requestLocationPermission()
+        viewModel.getPoints(lastLocation)
     }
 
     override fun onSuccessLocationListener() {
-        // TODO("Not yet implemented")
+        lastLocation?.let {
+            viewModel.getPoints(it)
+        }
     }
 
     override fun onLocationEnabled() {
@@ -51,6 +58,7 @@ class DepositionPointsMapFragment :
         requireActivity().supportFragmentManager.registerFragmentLifecycleCallbacks(
             MapViewFragmentLifecycleCallback, true
         )
+        requestLocationPermission()
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -69,12 +77,14 @@ class DepositionPointsMapFragment :
     }
 
     private fun moveCameraToPoints(depositionPoints: List<DepositionPoint>) {
+        if (depositionPoints.isEmpty()) return
+
         val locationFirst = depositionPoints.first().location
         val location = LatLng(
             locationFirst.latitude,
             locationFirst.longitude
         )
-
+        //lastLocation
         val cameraUpdate = CameraUpdateFactory.newLatLng(location)
         val zoom = CameraUpdateFactory.zoomTo(16f)
 

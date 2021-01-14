@@ -11,9 +11,15 @@ class DepositionPointsRepo @Inject constructor(
     private val depositionPointMapper: DepositionPointMapper,
 ) {
 
-    fun getDepositionPoints(): Single<List<DepositionPoint>> {
-        // FIXME 55.699950, 37.772501
-        return apiClient.getDepositionPoints(55.699950f, 37.772501f, 1000)
+    companion object {
+        private const val DEFAULT_RADIUS = 1000
+    }
+
+    fun getDepositionPoints(
+        latitude: Double,
+        longitude: Double,
+    ): Single<List<DepositionPoint>> {
+        return apiClient.getDepositionPoints(latitude, longitude, DEFAULT_RADIUS)
             .map { it.map { apiItem -> depositionPointMapper.fromApiToModel(apiItem) } }
     }
 }
