@@ -1,7 +1,9 @@
 package com.voronin.tinkoff.data.repository
 
 import com.voronin.api.clients.TinkoffApiClient
-import com.voronin.tinkoff.data.mappers.DepositionPointMapper
+import com.voronin.api.dto.DepositionPartnerDto
+import com.voronin.tinkoff.data.mappers.DepositionMapper
+import com.voronin.tinkoff.data.mappers.ImageUrlMapper
 import com.voronin.tinkoff.db.AppDatabase
 import com.voronin.tinkoff.db.DatabaseStorage
 import com.voronin.tinkoff.db.entities.DepositionPointRequestEntity
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 class DepositionPointsRepo @Inject constructor(
     private val apiClient: TinkoffApiClient,
-    private val depositionPointMapper: DepositionPointMapper,
+    private val depositionMapper: DepositionMapper,
+    private val imageUrlMapper: ImageUrlMapper,
     databaseStorage: DatabaseStorage,
 ) {
 
@@ -38,7 +41,7 @@ class DepositionPointsRepo @Inject constructor(
                 } else {
                     if (req.latitude == latitude && req.longitude == longitude && req.radius == radius) {
                         return@flatMap Single.just(
-                            it.points.map { item -> depositionPointMapper.fromEntityToModel(item) } // запрос найден в кеше
+                            it.points.map { item -> depositionMapper.fromEntityToModel(item) } // запрос найден в кеше
                         )
                     }
                 }
@@ -52,11 +55,31 @@ class DepositionPointsRepo @Inject constructor(
         longitude: Double,
         radius: Int,
     ): Single<List<DepositionPoint>> {
-        return apiClient.getDepositionPoints(latitude, longitude, radius)
-            .map { it.map { apiItem -> depositionPointMapper.fromApiToModel(apiItem) } }
-            .doOnSuccess {
-                saveRequest(latitude, longitude, radius, it)
+        return Single.zip(
+            apiClient.getDepositionPoints(latitude, longitude, radius),
+            getDepositionsPartner(),
+            { points, partners ->
+                val listWithImages = points.map { point ->
+                    depositionMapper.fromApiToModel(point).copy(
+                        images = imageUrlMapper.getImageUrl(
+                            partners.find { it.id == point.partnerName }?.picture ?: ""
+                        )
+                    )
+                }
+                saveRequest(latitude, longitude, radius, listWithImages)
+                listWithImages
             }
+        )
+    }
+
+    private fun getDepositionsPartner(): Single<List<DepositionPartnerDto>> {
+        return database.depositionPartnerDao().getAll().flatMap { partners ->
+            return@flatMap if (partners.isEmpty()) {
+                apiClient.getDepositionPartners()
+            } else {
+                Single.just(partners.map { depositionMapper.fromEntityToModel(it) })
+            }
+        }
     }
 
     private fun saveRequest(latitude: Double, longitude: Double, radius: Int, list: List<DepositionPoint>) {
@@ -64,7 +87,7 @@ class DepositionPointsRepo @Inject constructor(
         val reqId = database.depositionPointReqDao().insert(req)
 
         list.forEach {
-            val point = depositionPointMapper.fromModelToEntity(it)
+            val point = depositionMapper.fromModelToEntity(it)
 
             database.depositionPointDao().insert(point)
             database.requestWithDepositionPointEntityDao().insert(
@@ -74,5 +97,10 @@ class DepositionPointsRepo @Inject constructor(
                 )
             )
         }
+    }
+
+    private fun saveDepositionsPartner(list: List<DepositionPartnerDto>) {
+        val entities = list.map { depositionMapper.fromApiToEntity(it) }
+        database.depositionPartnerDao().insertAll(*entities.toTypedArray())
     }
 }

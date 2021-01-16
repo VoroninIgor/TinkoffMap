@@ -1,6 +1,6 @@
-package com.voronin.api.mappers
+package com.voronin.tinkoff.data.mappers
 
-import com.voronin.api.dto.ImageInfoDto
+import com.voronin.tinkoff.presentation.depositionpoints.models.ImageInfo
 import javax.inject.Inject
 
 class ImageUrlMapper @Inject constructor() {
@@ -12,8 +12,8 @@ class ImageUrlMapper @Inject constructor() {
         private const val XXHDPI = "xxhdpi"
     }
 
-    fun getImageUrl(partnerName: String): ImageInfoDto {
-        return ImageInfoDto(
+    fun getImageUrl(partnerName: String): ImageInfo {
+        return ImageInfo(
             smallImageUrl = partnerName.getPartnerImageUrl(MDPI),
             mediumImageUrl = partnerName.getPartnerImageUrl(HDPI),
             highImageUrl = partnerName.getPartnerImageUrl(XDPI),
@@ -22,6 +22,6 @@ class ImageUrlMapper @Inject constructor() {
     }
 
     private fun String.getPartnerImageUrl(dpi: String): String {
-        return "https://static.tinkoff.ru/icons/deposition-partners-v3/$dpi/$this"
+        return "https://static.tinkoff.ru/icons/deposition-partners-v3/$dpi/${this.toLowerCase()}.png"
     }
 }

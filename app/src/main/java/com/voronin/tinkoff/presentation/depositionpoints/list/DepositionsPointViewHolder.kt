@@ -1,10 +1,12 @@
 package com.voronin.tinkoff.presentation.depositionpoints.list
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import com.voronin.tinkoff.utils.ext.inflate
+import com.voronin.tinkoff.utils.ext.loadUrl
 import kotlinx.android.synthetic.main.item_depositions_point.view.imageViewDepositionsPointPartnerIcon
 import kotlinx.android.synthetic.main.item_depositions_point.view.imageViewDepositionsPointViewedIcon
 import kotlinx.android.synthetic.main.item_depositions_point.view.textViewDepositionsPointAddressInfo
@@ -27,7 +29,7 @@ class DepositionsPointViewHolder(
         textViewDepositionsPointAddressInfo.text = item.addressInfo
         textViewDepositionsPointFullAddress.text = item.fullAddress
 
-        imageViewDepositionsPointPartnerIcon
-        imageViewDepositionsPointViewedIcon
+        imageViewDepositionsPointPartnerIcon.loadUrl(item.images.largeImageUrl)
+        imageViewDepositionsPointViewedIcon.isVisible = true
     }
 }

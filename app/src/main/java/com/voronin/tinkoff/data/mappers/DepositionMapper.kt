@@ -1,15 +1,16 @@
 package com.voronin.tinkoff.data.mappers
 
+import com.voronin.api.dto.DepositionPartnerDto
 import com.voronin.api.dto.DepositionPointDto
-import com.voronin.api.dto.ImageInfoDto
 import com.voronin.api.dto.LocationDto
+import com.voronin.tinkoff.db.entities.DepositionPartnerEntity
 import com.voronin.tinkoff.db.entities.DepositionPointEntity
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import com.voronin.tinkoff.presentation.depositionpoints.models.ImageInfo
 import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 import javax.inject.Inject
 
-class DepositionPointMapper @Inject constructor() {
+class DepositionMapper @Inject constructor() {
 
     fun fromApiToModel(api: DepositionPointDto): DepositionPoint {
         return DepositionPoint(
@@ -20,7 +21,15 @@ class DepositionPointMapper @Inject constructor() {
             phones = api.phones ?: "",
             addressInfo = api.addressInfo ?: "",
             fullAddress = api.fullAddress ?: "",
-            images = fromApiToModel(api.image),
+            images = ImageInfo(),
+        )
+    }
+
+    fun fromApiToEntity(api: DepositionPartnerDto): DepositionPartnerEntity {
+        return DepositionPartnerEntity(
+            id = api.id,
+            name = api.name,
+            picture = api.picture,
         )
     }
 
@@ -50,6 +59,14 @@ class DepositionPointMapper @Inject constructor() {
         )
     }
 
+    fun fromEntityToModel(entity: DepositionPartnerEntity): DepositionPartnerDto {
+        return DepositionPartnerDto(
+            id = entity.id,
+            name = entity.name,
+            picture = entity.picture,
+        )
+    }
+
     private fun fromApiToModel(api: LocationDto): LocationGeo {
         return LocationGeo(
             latitude = api.latitude,
@@ -57,7 +74,7 @@ class DepositionPointMapper @Inject constructor() {
         )
     }
 
-    private fun fromApiToModel(api: ImageInfoDto): ImageInfo {
+    private fun fromApiToModel(api: ImageInfo): ImageInfo {
         return ImageInfo(
             smallImageUrl = api.smallImageUrl,
             mediumImageUrl = api.mediumImageUrl,

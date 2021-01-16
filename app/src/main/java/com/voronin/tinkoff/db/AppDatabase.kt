@@ -4,9 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.voronin.tinkoff.db.AppDatabase.Companion.DATABASE_VERSION
+import com.voronin.tinkoff.db.dao.DepositionPartnerDao
 import com.voronin.tinkoff.db.dao.DepositionPointDao
 import com.voronin.tinkoff.db.dao.DepositionPointRequestDao
 import com.voronin.tinkoff.db.dao.RequestWithDepositionPointEntityDao
+import com.voronin.tinkoff.db.entities.DepositionPartnerEntity
 import com.voronin.tinkoff.db.entities.DepositionPointEntity
 import com.voronin.tinkoff.db.entities.DepositionPointRequestEntity
 import com.voronin.tinkoff.db.entities.RequestWithDepositionPointEntity
@@ -15,7 +17,8 @@ import com.voronin.tinkoff.db.entities.RequestWithDepositionPointEntity
     entities = [
         DepositionPointEntity::class,
         DepositionPointRequestEntity::class,
-        RequestWithDepositionPointEntity::class
+        RequestWithDepositionPointEntity::class,
+        DepositionPartnerEntity::class
     ],
     version = DATABASE_VERSION,
     exportSchema = false
@@ -33,4 +36,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun depositionPointReqDao(): DepositionPointRequestDao
 
     abstract fun requestWithDepositionPointEntityDao(): RequestWithDepositionPointEntityDao
+
+    abstract fun depositionPartnerDao(): DepositionPartnerDao
 }

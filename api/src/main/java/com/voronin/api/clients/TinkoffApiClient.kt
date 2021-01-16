@@ -13,6 +13,6 @@ interface TinkoffApiClient {
     ): Single<List<DepositionPointDto>>
 
     fun getDepositionPartners(
-        accountType: String,
+        accountType: String = "Credit",
     ): Single<List<DepositionPartnerDto>>
 }

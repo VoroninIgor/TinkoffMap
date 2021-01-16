@@ -25,6 +25,4 @@ data class DepositionPointDto(
     @SerializedName("fullAddress")
     val fullAddress: String?,
 
-    val image: ImageInfoDto = ImageInfoDto(),
-
 )
