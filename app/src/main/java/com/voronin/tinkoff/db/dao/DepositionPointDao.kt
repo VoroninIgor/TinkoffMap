@@ -22,7 +22,7 @@ interface DepositionPointDao {
     fun insertAll(vararg list: DepositionPointEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: DepositionPointEntity) : Completable
+    fun insert(item: DepositionPointEntity): Completable
 
     @Query("DELETE from $TABLE_NAME")
     fun clear()

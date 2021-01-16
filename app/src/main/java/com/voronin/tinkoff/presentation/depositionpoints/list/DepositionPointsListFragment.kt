@@ -1,7 +1,6 @@
 package com.voronin.tinkoff.presentation.depositionpoints.list
 
 import android.os.Bundle
-import android.view.View
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.base.BaseFragment
 import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
@@ -38,16 +37,22 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
         depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsListStateViewFlipper.changeState(it)
         }
-        openDepositionPointDetail.observe { point ->
-            DepositionPointFragment.newInstance(point).show(childFragmentManager, "")
+        openDetailLiveData.observe { point ->
+            DepositionPointFragment.newInstance(point) {
+                refreshViewedPoint()
+            }.show(childFragmentManager, "")
+        }
+        viewedListLiveData.observe { viewedList ->
+            depositionsPointAdapter.updateViewedItems(viewedList)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+        refreshViewedPoint()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun refreshViewedPoint() {
+        viewModel.refreshViewedPoint()
     }
 }

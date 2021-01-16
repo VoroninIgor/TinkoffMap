@@ -19,12 +19,15 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
 
         private const val DEPOSITION_POINT_PARAM_KEY = "deposition_point_param"
 
-        fun newInstance(depositionPoint: DepositionPoint): DepositionPointFragment {
+        fun newInstance(depositionPoint: DepositionPoint, onActionClose: () -> Unit = {}): DepositionPointFragment {
             return DepositionPointFragment().apply {
+                this.onActionClose = onActionClose
                 arguments = bundleOf(DEPOSITION_POINT_PARAM_KEY to depositionPoint)
             }
         }
     }
+
+    private var onActionClose: () -> Unit = {}
 
     private val viewModel: DepositionPointViewModel by appViewModels()
 
@@ -53,5 +56,10 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
         textViewDepositionPointPhones.text = point.phones
         textViewDepositionPointAddressInfo.text = point.addressInfo
         textViewDepositionPointFullAddress.text = point.fullAddress
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onActionClose.invoke()
     }
 }

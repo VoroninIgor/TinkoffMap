@@ -27,9 +27,9 @@
 
         <ImageView
             android:id="@+id/imageViewDepositionsPointViewedIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/bg_viewed_circle"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:src="@drawable/bg_viewed_circle"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,8 +69,8 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toBottomOf="@+id/imageViewDepositionsPointPartnerIcon"
+
             tools:text="PointPhones" />
 
         <TextView

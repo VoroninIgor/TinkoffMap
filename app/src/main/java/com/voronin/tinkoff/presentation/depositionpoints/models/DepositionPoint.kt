@@ -23,7 +23,7 @@ data class DepositionPoint(
 
     val images: ImageInfo,
 
-    val isViewed: Boolean,
+    var isViewed: Boolean,
 
 ) : Parcelable, Similarable<DepositionPoint> {
 

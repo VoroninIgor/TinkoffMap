@@ -19,4 +19,15 @@ class DepositionsPointAdapter @Inject constructor(
     override fun onBindViewHolder(holder: DepositionsPointViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
+
+    fun updateViewedItems(viewedList: List<DepositionPoint>) {
+        currentList.forEach { displayedItem ->
+            viewedList.forEach { viewedItem ->
+                if (displayedItem.id == viewedItem.id) {
+                    displayedItem.isViewed = viewedItem.isViewed
+                    notifyItemChanged(currentList.indexOf(displayedItem))
+                }
+            }
+        }
+    }
 }

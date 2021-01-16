@@ -26,6 +26,12 @@ class DepositionPointsRepo @Inject constructor(
         private const val STORED_REQ_TIME = 10 * 60 * 1000L
     }
 
+    fun getAllPointsFromDatabase(): Single<List<DepositionPoint>> {
+        return database.depositionPointDao().getAll().map { list ->
+            list.map { depositionMapper.fromEntityToModel(it) }
+        }
+    }
+
     fun getDepositionPoints(
         latitude: Double,
         longitude: Double,
