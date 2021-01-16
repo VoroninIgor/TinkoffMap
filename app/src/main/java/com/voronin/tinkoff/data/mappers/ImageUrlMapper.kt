@@ -22,6 +22,6 @@ class ImageUrlMapper @Inject constructor() {
     }
 
     private fun String.getPartnerImageUrl(dpi: String): String {
-        return "https://static.tinkoff.ru/icons/deposition-partners-v3/$dpi/${this.toLowerCase()}.png"
+        return "https://static.tinkoff.ru/icons/deposition-partners-v3/$dpi/${this.toLowerCase()}"
     }
 }

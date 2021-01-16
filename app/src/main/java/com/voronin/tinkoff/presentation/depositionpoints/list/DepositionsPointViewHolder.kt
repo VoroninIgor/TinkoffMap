@@ -1,6 +1,7 @@
 package com.voronin.tinkoff.presentation.depositionpoints.list
 
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.voronin.tinkoff.R
@@ -23,13 +24,22 @@ class DepositionsPointViewHolder(
     fun bind(item: DepositionPoint) = with(itemView) {
         setOnClickListener { onItemSelected.invoke(item) }
 
-        textViewDepositionsPointPartnerName.text = item.addressInfo
+        textViewDepositionsPointPartnerName.text = item.partnerName
         textViewDepositionsPointWorkHours.text = item.workHours
+
         textViewDepositionsPointPhones.text = item.phones
+        textViewDepositionsPointPhones.isVisible = item.phones.isNotBlank()
+
         textViewDepositionsPointAddressInfo.text = item.addressInfo
+        textViewDepositionsPointAddressInfo.isVisible = item.addressInfo.isNotBlank()
+
         textViewDepositionsPointFullAddress.text = item.fullAddress
+        textViewDepositionsPointFullAddress.isVisible = item.fullAddress.isNotBlank()
 
         imageViewDepositionsPointPartnerIcon.loadUrl(item.images.largeImageUrl)
-        imageViewDepositionsPointViewedIcon.isVisible = true
+
+        imageViewDepositionsPointViewedIcon.setBackgroundColor(
+            getColor(context, if (item.isViewed) R.color.blue else R.color.grey_bg)
+        )
     }
 }

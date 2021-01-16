@@ -50,6 +50,13 @@ class DepositionPointsRepo @Inject constructor(
         }
     }
 
+    fun setPointViewed(point: DepositionPoint) {
+        val entity = depositionMapper.fromModelToEntity(point).copy(
+            isViewed = true
+        )
+        database.depositionPointDao().insert(entity)
+    }
+
     private fun getPointsFromApi(
         latitude: Double,
         longitude: Double,

@@ -22,6 +22,7 @@ class DepositionMapper @Inject constructor() {
             addressInfo = api.addressInfo ?: "",
             fullAddress = api.fullAddress ?: "",
             images = ImageInfo(),
+            isViewed = false
         )
     }
 
@@ -43,6 +44,7 @@ class DepositionMapper @Inject constructor() {
             addressInfo = model.addressInfo,
             fullAddress = model.fullAddress,
             images = model.images,
+            isViewed = model.isViewed
         )
     }
 
@@ -56,6 +58,7 @@ class DepositionMapper @Inject constructor() {
             addressInfo = entity.addressInfo,
             fullAddress = entity.fullAddress,
             images = entity.images,
+            isViewed = entity.isViewed
         )
     }
 
@@ -71,15 +74,6 @@ class DepositionMapper @Inject constructor() {
         return LocationGeo(
             latitude = api.latitude,
             longitude = api.longitude
-        )
-    }
-
-    private fun fromApiToModel(api: ImageInfo): ImageInfo {
-        return ImageInfo(
-            smallImageUrl = api.smallImageUrl,
-            mediumImageUrl = api.mediumImageUrl,
-            highImageUrl = api.highImageUrl,
-            largeImageUrl = api.largeImageUrl,
         )
     }
 }

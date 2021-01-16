@@ -4,12 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.ViewFlipper
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import com.airbnb.lottie.LottieAnimationView
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.data.base.OperationState
+import com.voronin.tinkoff.utils.ext.inflate
 import com.voronin.tinkoff.utils.isServerError
 import kotlinx.android.synthetic.main.view_state_empty.view.animationViewEmpty
 import kotlinx.android.synthetic.main.view_state_empty.view.imageViewLineToCatalog
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.view_state_empty.view.textEmpty
 import kotlinx.android.synthetic.main.view_state_error.view.animationViewError
 import kotlinx.android.synthetic.main.view_state_error.view.buttonError
 import kotlinx.android.synthetic.main.view_state_error.view.textErrorDescription
-import kotlinx.android.synthetic.main.view_state_loading.view.animationViewProgress
+import kotlinx.android.synthetic.main.view_state_loading.view.progress
 
 class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlipper(context, attrs) {
 
@@ -30,35 +31,21 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     private var state = State.LOADING
 
-    private lateinit var loadingView: View
-    private val animationViewLoading: LottieAnimationView by lazy { loadingView.animationViewProgress }
-//     private val lottieAnimationView: LottieAnimationView by lazy { loadingView.lottieAnimationView }
+    private var loadingView: View = this.inflate(R.layout.view_state_loading)
+    private val progressView: View by lazy { loadingView.progress }
 
-    private lateinit var emptyView: View
-    val animationViewEmpty: LottieAnimationView by lazy { emptyView.animationViewEmpty }
+    private var emptyView: View =  this.inflate(R.layout.view_state_empty)
+    val animationViewEmpty: ImageView by lazy { emptyView.animationViewEmpty }
     val textEmpty: AppCompatTextView by lazy { emptyView.textEmpty }
     val imageLineToCatalog: AppCompatImageView by lazy { emptyView.imageViewLineToCatalog }
-//    val textAsButtonEmpty: AppCompatTextView by lazy { emptyView.textAsButtonEmpty }
 
-    private lateinit var errorView: View
-    private val animationViewError: LottieAnimationView by lazy { errorView.animationViewError }
+    private  var errorView: View  = this.inflate(R.layout.view_state_error)
+    private val animationViewError: ImageView by lazy { errorView.animationViewError }
     private val textErrorDescription: AppCompatTextView by lazy { errorView.textErrorDescription }
-    // val imageError: AppCompatImageView by lazy { errorView.imageError }
-    // val textError: AppCompatTextView by lazy { errorView.textError }
-    // val textAsButtonError: AppCompatTextView by lazy { errorView.textAsButtonError }
-
-    private var currentAnimationViewEmpty: LottieAnimationView? = null
 
     init {
-        val layoutInflater = LayoutInflater.from(context)
-
-        loadingView = layoutInflater.inflate(R.layout.view_state_loading, this, false)
         addView(loadingView)
-
-        emptyView = layoutInflater.inflate(R.layout.view_state_empty, this, false)
         addView(emptyView)
-
-        errorView = layoutInflater.inflate(R.layout.view_state_error, this, false)
         addView(errorView)
     }
 
@@ -84,76 +71,39 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     fun setStateLoading() {
         changeState(State.LOADING)
-        runAnimationAndStopOthers(animationViewLoading)
     }
 
     fun setStateEmpty() {
         changeState(State.EMPTY)
-        runAnimationAndStopOthers(animationViewEmpty)
     }
 
     fun setStateError(error: OperationState.Error? = null) {
         changeState(State.ERROR)
         if (error == null) {
             textErrorDescription.setText(R.string.error_default_message)
-            animationViewError.setAnimation(R.raw.internet_error)
+//            animationViewError.setAnimation(R.raw.internet_error)
         } else {
             if (error.e is retrofit2.HttpException) {
                 if (error.e.code().isServerError()) {
                     textErrorDescription.setText(R.string.error_service)
-                    animationViewError.setAnimation(R.raw.error_server)
+//                    animationViewError.setAnimation(R.raw.error_server)
                 } else {
                     textErrorDescription.setText(R.string.error_default_message)
-                    animationViewError.setAnimation(R.raw.internet_error)
+//                    animationViewError.setAnimation(R.raw.internet_error)
                 }
             } else {
                 textErrorDescription.setText(R.string.error_default_message)
-                animationViewError.setAnimation(R.raw.internet_error)
+//                animationViewError.setAnimation(R.raw.internet_error)
             }
         }
-        runAnimationAndStopOthers(animationViewError)
     }
 
     fun setStateData() {
         changeState(State.DATA)
-        runAnimationAndStopOthers()
-    }
-
-    /**
-     * @param animationView - запускает эту анимацию и останавливает анимации у других состояний. Если null,
-     * то останавливает все анимации
-     */
-    private fun runAnimationAndStopOthers(animationView: LottieAnimationView? = null) {
-        if (animationView != animationViewError) {
-            animationViewError.pauseAnimation()
-        }
-
-        if (animationView != animationViewLoading) {
-            animationViewLoading.pauseAnimation()
-        }
-
-        if (animationView != animationViewEmpty) {
-            animationViewEmpty.pauseAnimation()
-        }
-
-        if (currentAnimationViewEmpty != animationView) {
-            currentAnimationViewEmpty = animationView
-            animationView?.playAnimation()
-        }
     }
 
     fun isLoading() = state == State.LOADING
     fun isEmpty() = state == State.EMPTY
     fun isError() = state == State.ERROR
     fun isData() = state == State.DATA
-
-//    fun setStateInternetError() {
-//        // textError.text = context.getString(R.string.error_internet)
-//        changeState(State.ERROR)
-//    }
-//
-//    fun setStateUnknownError() {
-//        // textError.text = context.getString(R.string.error_unknown)
-//        changeState(State.ERROR)
-//    }
 }

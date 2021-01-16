@@ -33,8 +33,9 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
     }
 
     override fun callOperations() {
-        arguments?.get(DEPOSITION_POINT_PARAM_KEY)?.let {
-            viewModel.initDepositionPoint(it as DepositionPoint)
+        arguments?.get(DEPOSITION_POINT_PARAM_KEY)?.let { point ->
+            viewModel.initDepositionPoint(point as DepositionPoint)
+            viewModel.checkPointViewed(point)
         }
     }
 
@@ -52,6 +53,5 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
         textViewDepositionPointPhones.text = point.phones
         textViewDepositionPointAddressInfo.text = point.addressInfo
         textViewDepositionPointFullAddress.text = point.fullAddress
-// https://static.tinkoff.ru/icons/deposition-partners-v3/{dpi}/{partner.picture}, где {dpi} - DPI экрана (mdpi, hdpi, xhdpi, xxhdpi), {partner.picture} – это имя картинки, которое возвращается в поле pictureпо запросу /deposition_partners
     }
 }

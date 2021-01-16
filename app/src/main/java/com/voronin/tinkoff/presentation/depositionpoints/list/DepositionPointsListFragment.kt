@@ -1,6 +1,7 @@
 package com.voronin.tinkoff.presentation.depositionpoints.list
 
 import android.os.Bundle
+import android.view.View
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.base.BaseFragment
 import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
@@ -25,6 +26,9 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
     override fun onSetupLayout(savedInstanceState: Bundle?) {
         depositionPointsListRecyclerView.adapter = depositionsPointAdapter
         depositionsPointAdapter.onItemClicked = viewModel::onItemSelected
+        depositionPointsListStateViewFlipper.setRetryMethod {
+            viewModel.depositionsListViewModel.getPoints()
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -37,5 +41,13 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
         openDepositionPointDetail.observe { point ->
             DepositionPointFragment.newInstance(point).show(childFragmentManager, "")
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }

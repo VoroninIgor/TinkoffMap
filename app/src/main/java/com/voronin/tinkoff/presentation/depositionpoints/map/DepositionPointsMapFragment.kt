@@ -56,6 +56,9 @@ class DepositionPointsMapFragment private constructor() :
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
         depositionPointsMapStateViewFlipper.changeState(OperationState.success())
+        depositionPointsMapStateViewFlipper.setRetryMethod {
+            googleMap?.let { refreshMap(it) }
+        }
 
         depositionPointsMapMapView.getMapAsync(this)
 
@@ -86,7 +89,7 @@ class DepositionPointsMapFragment private constructor() :
         )
 
         val cameraUpdate = CameraUpdateFactory.newLatLng(location)
-        val zoom = CameraUpdateFactory.zoomTo(12f)
+        val zoom = CameraUpdateFactory.zoomTo(13f)
 
         googleMap?.moveCamera(cameraUpdate)
         googleMap?.animateCamera(zoom)
@@ -124,18 +127,22 @@ class DepositionPointsMapFragment private constructor() :
             isZoomGesturesEnabled = true
         }
 
-        googleMap.setMinZoomPreference(12.0f)
+        googleMap.setMinZoomPreference(13.0f)
         googleMap.setMaxZoomPreference(16.0f)
 
         var initLocationView = true
         googleMap.setOnCameraChangeListener {
             if (lastLocation != null && initLocationView) {
-                viewModel.depositionsListViewModel.getPoints(
-                    lastLocation,
-                    radius = googleMap.calculateVisibleRadius()
-                )
+                refreshMap(googleMap)
                 initLocationView = false
             }
         }
+    }
+
+    private fun refreshMap(googleMap: GoogleMap) {
+        viewModel.depositionsListViewModel.getPoints(
+            lastLocation,
+            radius = googleMap.calculateVisibleRadius()
+        )
     }
 }

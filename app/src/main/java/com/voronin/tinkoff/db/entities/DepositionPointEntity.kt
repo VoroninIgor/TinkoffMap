@@ -36,4 +36,7 @@ data class DepositionPointEntity(
     @ColumnInfo(name = "images")
     val images: ImageInfo,
 
+    @ColumnInfo(name = "isViewed")
+    val isViewed: Boolean,
+
 )

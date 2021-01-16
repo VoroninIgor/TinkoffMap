@@ -23,6 +23,8 @@ data class DepositionPoint(
 
     val images: ImageInfo,
 
+    val isViewed: Boolean,
+
 ) : Parcelable, Similarable<DepositionPoint> {
 
     override fun areItemsTheSame(other: DepositionPoint): Boolean {
