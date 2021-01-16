@@ -35,7 +35,7 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
         depositionsListViewModel.markersLiveData.observe { points ->
             depositionsPointAdapter.submitList(points)
         }
-        depositionsListViewModel.markersProgress.observe {
+        depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsListStateViewFlipper.changeState(it)
         }
         openDepositionPointDetail.observe { point ->

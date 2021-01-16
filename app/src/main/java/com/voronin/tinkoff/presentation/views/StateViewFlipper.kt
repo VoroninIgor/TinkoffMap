@@ -2,7 +2,6 @@ package com.voronin.tinkoff.presentation.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.ViewFlipper
@@ -34,12 +33,12 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
     private var loadingView: View = this.inflate(R.layout.view_state_loading)
     private val progressView: View by lazy { loadingView.progress }
 
-    private var emptyView: View =  this.inflate(R.layout.view_state_empty)
+    private var emptyView: View = this.inflate(R.layout.view_state_empty)
     val animationViewEmpty: ImageView by lazy { emptyView.animationViewEmpty }
     val textEmpty: AppCompatTextView by lazy { emptyView.textEmpty }
     val imageLineToCatalog: AppCompatImageView by lazy { emptyView.imageViewLineToCatalog }
 
-    private  var errorView: View  = this.inflate(R.layout.view_state_error)
+    private var errorView: View = this.inflate(R.layout.view_state_error)
     private val animationViewError: ImageView by lazy { errorView.animationViewError }
     private val textErrorDescription: AppCompatTextView by lazy { errorView.textErrorDescription }
 

@@ -32,6 +32,10 @@ class DepositionPointsMapFragment private constructor() :
         }
     }
 
+    private val viewModel: DepositionPointsMapViewModel by appViewModels()
+
+    private var googleMap: GoogleMap? = null
+
     override fun onSuccessLocationListener() {
         lastLocation?.let {
             moveCameraToLocation(it)
@@ -46,10 +50,6 @@ class DepositionPointsMapFragment private constructor() :
         Log.d("voronin", "onLocationDenied")
     }
 
-    private val viewModel: DepositionPointsMapViewModel by appViewModels()
-
-    private var googleMap: GoogleMap? = null
-
     override fun getMapView(): MapView? = depositionPointsMapMapView
 
     override fun callOperations() = Unit
@@ -57,6 +57,7 @@ class DepositionPointsMapFragment private constructor() :
     override fun onSetupLayout(savedInstanceState: Bundle?) {
         depositionPointsMapStateViewFlipper.changeState(OperationState.success())
         depositionPointsMapStateViewFlipper.setRetryMethod {
+            requestLocationPermission()
             googleMap?.let { refreshMap(it) }
         }
 
@@ -74,7 +75,7 @@ class DepositionPointsMapFragment private constructor() :
                 addMarker(it)
             }
         }
-        depositionsListViewModel.markersProgress.observe {
+        depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsMapStateViewFlipper.changeState(it)
         }
         openDepositionPointDetail.observe { point ->

@@ -3,7 +3,6 @@ package com.voronin.tinkoff.presentation.base
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.location.LocationManager
 import android.location.LocationManager.GPS_PROVIDER
 import android.os.Bundle
@@ -21,10 +20,8 @@ import io.reactivex.disposables.Disposable
 abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layout) {
 
     companion object {
-        private const val REQUEST_SETTINGS = 1050
-
-        private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
-        private const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS: Long = UPDATE_INTERVAL_IN_MILLISECONDS / 2
+        private const val UPDATE_INTERVAL_IN_MILLISECONDS = 10000L
+        private const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2L
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -51,8 +48,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         super.onPause()
     }
 
-    fun requestLocationPermission(fromResult: Boolean = false) {
-//        permissionDialog?.dismiss()
+    fun requestLocationPermission() {
         disposable?.dispose()
         disposable = RxPermissions(this).requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -72,14 +68,11 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         super.onDestroyView()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_SETTINGS) {
-            requestLocationPermission(true)
-        }
-    }
-
     protected abstract fun onSuccessLocationListener()
+
+    protected abstract fun onLocationEnabled()
+
+    protected abstract fun onLocationDenied()
 
     @SuppressLint("MissingPermission")
     private fun onLocationPermissionGranted() = with(locationManager) {
@@ -125,8 +118,4 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
             }
         }
     }
-
-    protected abstract fun onLocationEnabled()
-
-    protected abstract fun onLocationDenied()
 }

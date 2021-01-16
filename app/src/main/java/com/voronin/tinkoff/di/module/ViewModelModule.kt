@@ -48,5 +48,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(DepositionsListViewModel::class)
-    abstract fun pointViewModel(viewModel: DepositionsListViewModel): ViewModel
+    abstract fun depositionsListViewModel(viewModel: DepositionsListViewModel): ViewModel
 }

@@ -16,7 +16,7 @@ class DepositionsListViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val markersLiveData = MutableLiveData<List<DepositionPoint>>()
-    val markersProgress = MutableLiveData<OperationState>()
+    val markersProgressLiveData = MutableLiveData<OperationState>()
 
     fun getPoints(lastLocation: LocationGeo? = null, radius: Int = 1000) {
         if (lastLocation == null) return
@@ -29,7 +29,7 @@ class DepositionsListViewModel @Inject constructor(
                     radius = radius
                 ),
                 markersLiveData,
-                markersProgress
+                markersProgressLiveData
             )
         )
     }
