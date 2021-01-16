@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.fragment_depositions_points_list.depositio
 import kotlinx.android.synthetic.main.fragment_depositions_points_list.depositionPointsListStateViewFlipper
 import javax.inject.Inject
 
-class DepositionPointsListFragment : BaseFragment(R.layout.fragment_depositions_points_list) {
+class DepositionPointsListFragment private constructor() : BaseFragment(R.layout.fragment_depositions_points_list) {
 
     companion object {
         fun newInstance(): DepositionPointsListFragment {

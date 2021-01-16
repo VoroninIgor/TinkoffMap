@@ -28,10 +28,11 @@ class DepositionPointsRepo @Inject constructor(
         radius: Int,
     ): Single<List<DepositionPoint>> {
         return database.requestWithDepositionPointEntityDao().getRequestWithPoints().flatMap { list ->
-            val time = System.currentTimeMillis()
+            val timeNow = System.currentTimeMillis()
+
             list.forEach {
                 val req = it.request
-                if (time - req.timestamp > STORED_REQ_TIME) {
+                if (timeNow - req.timestamp > STORED_REQ_TIME) {
                     database.depositionPointReqDao().delete(req) // удаление запроса по истечению времени
                     database.requestWithDepositionPointEntityDao().delete(req.id)
                 } else {
