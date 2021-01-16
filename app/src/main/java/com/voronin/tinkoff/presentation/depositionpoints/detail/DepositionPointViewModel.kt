@@ -7,7 +7,7 @@ import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
 import javax.inject.Inject
 
 class DepositionPointViewModel @Inject constructor(
-    private val depositionPointsRepo: DepositionPointsRepo
+    private val depositionPointsRepo: DepositionPointsRepo,
 ) : BaseViewModel() {
 
     val depositionPointLiveData = MutableLiveData<DepositionPoint>()
@@ -17,6 +17,10 @@ class DepositionPointViewModel @Inject constructor(
     }
 
     fun checkPointViewed(depositionPoint: DepositionPoint) {
-        depositionPointsRepo.setPointViewed(depositionPoint)
+        execute(
+            depositionPointsRepo.setPointViewed(depositionPoint),
+            {},
+            {}
+        )
     }
 }

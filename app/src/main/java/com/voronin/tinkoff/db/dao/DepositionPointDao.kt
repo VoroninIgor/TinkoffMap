@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.voronin.tinkoff.db.entities.DepositionPointEntity
+import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
@@ -21,7 +22,7 @@ interface DepositionPointDao {
     fun insertAll(vararg list: DepositionPointEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: DepositionPointEntity)
+    fun insert(item: DepositionPointEntity) : Completable
 
     @Query("DELETE from $TABLE_NAME")
     fun clear()

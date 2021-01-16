@@ -9,6 +9,7 @@ import com.voronin.tinkoff.db.DatabaseStorage
 import com.voronin.tinkoff.db.entities.DepositionPointRequestEntity
 import com.voronin.tinkoff.db.entities.RequestWithDepositionPointEntity
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -50,11 +51,11 @@ class DepositionPointsRepo @Inject constructor(
         }
     }
 
-    fun setPointViewed(point: DepositionPoint) {
+    fun setPointViewed(point: DepositionPoint): Completable {
         val entity = depositionMapper.fromModelToEntity(point).copy(
             isViewed = true
         )
-        database.depositionPointDao().insert(entity)
+        return database.depositionPointDao().insert(entity)
     }
 
     private fun getPointsFromApi(
