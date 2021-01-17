@@ -26,7 +26,6 @@ import com.voronin.tinkoff.utils.GpsUtils
 import com.voronin.tinkoff.utils.GpsUtils.Companion.GPS_REQUEST
 import io.reactivex.disposables.Disposable
 
-
 abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layout) {
 
     companion object {
@@ -73,9 +72,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
             .subscribe {
                 if (it.granted) {
                     enableGeo = true
-                    if (locationManager.isProviderEnabled(GPS_PROVIDER)) {
-                        onLocationPermissionGranted()
-                    } else {
+                    onLocationPermissionGranted()
+                    if (!locationManager.isProviderEnabled(GPS_PROVIDER)) {
                         showEnableGpsAlert()
                     }
                 } else if (it.shouldShowRequestPermissionRationale) {
@@ -92,7 +90,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GPS_REQUEST) {
-                onLocationEnabled()
+                onLocationPermissionGranted()
             }
         }
     }
@@ -128,7 +126,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
                     Intent(
                         Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                         Uri.parse("package:" + context?.packageName)
-                    ), 1050
+                    ),
+                    1050
                 )
                 dialog.dismiss()
             }
@@ -161,6 +160,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         if (hasNotGpsProvider || isProviderEnabled || hasNotNetworkProvider || isNetworkProviderEnabled) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocationClient.lastLocation.addOnSuccessListener {
+                Log.d("voronin", "fusedLocationClient lastLocation")
                 if (it != null) {
                     lastLocation = LocationGeo(
                         it.latitude,
@@ -170,6 +170,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
                     defaultLocationGeo = true
                 } else {
                     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+                    Log.d("voronin", "requestLocationUpdates")
                 }
             }
             onLocationEnabled()
@@ -187,6 +188,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     private fun createLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
+                Log.d("voronin", "onLocationResult")
                 locationResult?.lastLocation?.let { it ->
                     lastLocation = LocationGeo(it.latitude, it.longitude)
                     fusedLocationClient.removeLocationUpdates(locationCallback)

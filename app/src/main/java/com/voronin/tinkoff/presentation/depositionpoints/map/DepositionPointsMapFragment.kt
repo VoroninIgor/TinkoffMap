@@ -15,6 +15,7 @@ import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.presentation.base.BaseLocationFragment
 import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
+import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 import com.voronin.tinkoff.presentation.views.map.MapViewFragmentLifecycleCallback
 import com.voronin.tinkoff.presentation.views.map.MapViewProvider
 import com.voronin.tinkoff.utils.ext.calculateVisibleRadius
@@ -48,7 +49,7 @@ class DepositionPointsMapFragment private constructor() :
 
     override fun onSuccessLocationListener() {
         addMyLocationMarker()
-        moveCameraToLocation()
+        moveCameraToLocation(lastLocation)
         Log.d("voronin", "onSuccessLocationListener")
     }
 
@@ -65,7 +66,7 @@ class DepositionPointsMapFragment private constructor() :
     private fun showDefaultView() {
         lastLocation = DEFAULT_LOCATION_GEO_MSK
         updatePoints(1500)
-        moveCameraToLocation()
+        moveCameraToLocation(DEFAULT_LOCATION_GEO_MSK)
     }
 
     override fun getMapView(): MapView? = mapViewDepositionPointsMap
@@ -85,7 +86,10 @@ class DepositionPointsMapFragment private constructor() :
             googleMap?.animateCamera(CameraUpdateFactory.zoomTo(min(getZoomValue() + 1, MAX_ZOOM)))
         }
         fabDepositionPointsMapMyLocation.setOnClickListener {
-            moveCameraToLocation()
+            moveCameraToLocation(lastLocation)
+            if (viewModel.depositionsListViewModel.markersLiveData.value?.isEmpty() == true) {
+                showDefaultView()
+            }
         }
 
         mapViewDepositionPointsMap.getMapAsync(this)
@@ -111,8 +115,8 @@ class DepositionPointsMapFragment private constructor() :
         }
     }
 
-    private fun moveCameraToLocation() {
-        lastLocation?.let {
+    private fun moveCameraToLocation(viewedLocation: LocationGeo?) {
+        viewedLocation?.let {
             val location = LatLng(it.latitude, it.longitude)
             val cameraUpdate = CameraUpdateFactory.newLatLng(location)
             val zoom = CameraUpdateFactory.zoomTo(MY_LOCATION_ZOOM)
@@ -165,6 +169,8 @@ class DepositionPointsMapFragment private constructor() :
 
         setMinZoomPreference(MIN_ZOOM)
         setMaxZoomPreference(MAX_ZOOM)
+
+        moveCameraToLocation(DEFAULT_LOCATION_GEO_MSK)
 
         var initLocationView = true
         setOnCameraChangeListener {
