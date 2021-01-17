@@ -23,7 +23,11 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
     override fun callOperations() = Unit
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
-        depositionPointsListRecyclerView.adapter = depositionsPointAdapter
+        with(depositionPointsListRecyclerView) {
+            adapter = depositionsPointAdapter
+            itemAnimator = null
+        }
+
         depositionsPointAdapter.onItemClicked = viewModel::onItemSelected
         depositionPointsListStateViewFlipper.setRetryMethod {
             viewModel.depositionsListViewModel.getPoints()

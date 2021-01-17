@@ -2,6 +2,7 @@ package com.voronin.tinkoff.presentation.base
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.voronin.tinkoff.R
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -52,7 +54,9 @@ abstract class BaseBottomSheetFragment(@LayoutRes private val layoutRes: Int) : 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layoutRes, container, false)
+        return inflater
+            .cloneInContext(ContextThemeWrapper(activity, R.style.AppTheme))
+            .inflate(layoutRes, container, false)
     }
 
     protected infix fun <T> LiveData<T>.observe(block: (T) -> Unit) {

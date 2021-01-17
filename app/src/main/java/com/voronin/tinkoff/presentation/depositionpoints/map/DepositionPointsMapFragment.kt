@@ -90,7 +90,7 @@ class DepositionPointsMapFragment private constructor() :
         )
 
         val cameraUpdate = CameraUpdateFactory.newLatLng(location)
-        val zoom = CameraUpdateFactory.zoomTo(13f)
+        val zoom = CameraUpdateFactory.zoomTo(12f)
 
         googleMap?.moveCamera(cameraUpdate)
         googleMap?.animateCamera(zoom)
@@ -128,7 +128,7 @@ class DepositionPointsMapFragment private constructor() :
             isZoomGesturesEnabled = true
         }
 
-        googleMap.setMinZoomPreference(13.0f)
+        googleMap.setMinZoomPreference(12.0f)
         googleMap.setMaxZoomPreference(16.0f)
 
         var initLocationView = true
