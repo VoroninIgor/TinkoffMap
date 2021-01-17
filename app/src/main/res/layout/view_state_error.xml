@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
 
-            android:src="@drawable/ic_baseline_refresh_24"
+            android:src="@drawable/ic_baseline_refresh"
             app:fabSize="normal"
 
             app:layout_constraintBottom_toBottomOf="parent"

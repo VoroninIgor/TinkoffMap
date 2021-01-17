@@ -14,12 +14,15 @@ import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.presentation.base.BaseLocationFragment
 import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
-import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 import com.voronin.tinkoff.presentation.views.map.MapViewFragmentLifecycleCallback
 import com.voronin.tinkoff.presentation.views.map.MapViewProvider
 import com.voronin.tinkoff.utils.ext.calculateVisibleRadius
-import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapMapView
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.depositionPointsMapStateViewFlipper
+import kotlinx.android.synthetic.main.fragment_depositions_points_map.fabDepositionPointsMapMyLocation
+import kotlinx.android.synthetic.main.fragment_depositions_points_map.fabDepositionPointsMapZoomIn
+import kotlinx.android.synthetic.main.fragment_depositions_points_map.fabDepositionPointsMapZoomOut
+import kotlinx.android.synthetic.main.fragment_depositions_points_map.mapViewDepositionPointsMap
+import kotlin.math.min
 
 class DepositionPointsMapFragment private constructor() :
     BaseLocationFragment(R.layout.fragment_depositions_points_map),
@@ -30,6 +33,11 @@ class DepositionPointsMapFragment private constructor() :
         fun newInstance(): DepositionPointsMapFragment {
             return DepositionPointsMapFragment()
         }
+
+        private const val MIN_ZOOM = 12f
+        private const val MAX_ZOOM = 16f
+
+        private const val MY_LOCATION_ZOOM = 14f
     }
 
     private val viewModel: DepositionPointsMapViewModel by appViewModels()
@@ -37,9 +45,7 @@ class DepositionPointsMapFragment private constructor() :
     private var googleMap: GoogleMap? = null
 
     override fun onSuccessLocationListener() {
-        lastLocation?.let {
-            moveCameraToLocation(it)
-        }
+        moveCameraToLocation()
     }
 
     override fun onLocationEnabled() {
@@ -50,7 +56,7 @@ class DepositionPointsMapFragment private constructor() :
         Log.d("voronin", "onLocationDenied")
     }
 
-    override fun getMapView(): MapView? = depositionPointsMapMapView
+    override fun getMapView(): MapView? = mapViewDepositionPointsMap
 
     override fun callOperations() = Unit
 
@@ -61,7 +67,17 @@ class DepositionPointsMapFragment private constructor() :
             googleMap?.let { refreshMap(it) }
         }
 
-        depositionPointsMapMapView.getMapAsync(this)
+        fabDepositionPointsMapZoomOut.setOnClickListener {
+            googleMap?.animateCamera(CameraUpdateFactory.zoomTo(min(getZoomValue() - 1, MIN_ZOOM)))
+        }
+        fabDepositionPointsMapZoomIn.setOnClickListener {
+            googleMap?.animateCamera(CameraUpdateFactory.zoomTo(min(getZoomValue() + 1, MAX_ZOOM)))
+        }
+        fabDepositionPointsMapMyLocation.setOnClickListener {
+            moveCameraToLocation()
+        }
+
+        mapViewDepositionPointsMap.getMapAsync(this)
 
         requireActivity().supportFragmentManager.registerFragmentLifecycleCallbacks(
             MapViewFragmentLifecycleCallback, true
@@ -83,17 +99,15 @@ class DepositionPointsMapFragment private constructor() :
         }
     }
 
-    private fun moveCameraToLocation(locationGeo: LocationGeo) {
-        val location = LatLng(
-            locationGeo.latitude,
-            locationGeo.longitude
-        )
+    private fun moveCameraToLocation() {
+        lastLocation?.let {
+            val location = LatLng(it.latitude, it.longitude)
+            val cameraUpdate = CameraUpdateFactory.newLatLng(location)
+            val zoom = CameraUpdateFactory.zoomTo(MY_LOCATION_ZOOM)
 
-        val cameraUpdate = CameraUpdateFactory.newLatLng(location)
-        val zoom = CameraUpdateFactory.zoomTo(12f)
-
-        googleMap?.moveCamera(cameraUpdate)
-        googleMap?.animateCamera(zoom)
+            googleMap?.moveCamera(cameraUpdate)
+            googleMap?.animateCamera(zoom)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -124,12 +138,12 @@ class DepositionPointsMapFragment private constructor() :
         }
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.apply {
-            isZoomControlsEnabled = true
+            isZoomControlsEnabled = false
             isZoomGesturesEnabled = true
         }
 
-        googleMap.setMinZoomPreference(12.0f)
-        googleMap.setMaxZoomPreference(16.0f)
+        googleMap.setMinZoomPreference(MIN_ZOOM)
+        googleMap.setMaxZoomPreference(MAX_ZOOM)
 
         var initLocationView = true
         googleMap.setOnCameraChangeListener {
@@ -145,5 +159,9 @@ class DepositionPointsMapFragment private constructor() :
             lastLocation,
             radius = googleMap.calculateVisibleRadius()
         )
+    }
+
+    private fun getZoomValue(): Float {
+        return googleMap?.cameraPosition?.zoom ?: 0f
     }
 }
