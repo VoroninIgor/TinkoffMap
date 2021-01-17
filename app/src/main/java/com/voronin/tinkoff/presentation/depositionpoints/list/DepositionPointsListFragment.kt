@@ -37,6 +37,9 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
     override fun onBindViewModel() = with(viewModel) {
         depositionsListViewModel.markersLiveData.observe { points ->
             depositionsPointAdapter.submitList(points)
+            if (points.isEmpty()) {
+                depositionPointsListStateViewFlipper.setStateEmpty()
+            }
         }
         depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsListStateViewFlipper.changeState(it)

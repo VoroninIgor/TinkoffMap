@@ -6,19 +6,17 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/animationViewEmpty"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/imageViewEmpty"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp"
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginBottom="12dp"
-        android:maxWidth="244dp"
-        android:maxHeight="244dp"
-        android:scaleType="centerInside"
-        android:background="@color/blue"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_search"
 
         app:layout_constraintBottom_toTopOf="@id/textEmpty"
         app:layout_constraintDimensionRatio="1:1"
@@ -31,7 +29,6 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textEmpty"
-        fontPath="fonts/Roboto-Medium.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -41,43 +38,19 @@
         android:lineSpacingExtra="5sp"
         android:paddingStart="36dp"
         android:paddingEnd="36dp"
+        android:text="@string/empty_list_text"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="normal"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animationViewEmpty"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEmpty"
         app:layout_constraintVertical_bias="0.0"
+
         tools:ignore="RtlCompat,UnusedAttribute" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline10"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline50"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewLineToCatalog"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline50"
-        app:layout_constraintStart_toEndOf="@id/guideline10"
-        app:layout_constraintTop_toBottomOf="@id/textEmpty"
-
-        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
