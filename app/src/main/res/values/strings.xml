@@ -1,37 +1,21 @@
 <resources>
     <string name="app_name">TinkoffMap</string>
 
-    <!-- НЕТ ИНТЕРНЕТА -->
-    <string name="error_no_network_title">Что-то с интернетом</string>
-    <string name="error_no_network_description">Проверьте мобильное соединение или Wi-Fi, а затем обновите экран</string>
-
-    <!-- ЧТО-ТО НЕ ТАК -->
-    <string name="error_something_wrong_title">Что-то пошло не так</string>
-    <string name="error_something_wrong_description">Попробуйте обновить страницу</string>
-
     <!-- ОБЩИЕ ОШИБКИ -->
-    <string name="error_auth_401">Что-то пошло не так. Необходимо авторизоваться повторно</string>
-    <string name="error_internet_message">Не удалось получить данные, попробуйте позже</string>
-    <string name="error_retry">Повторить</string>
-    <string name="error_refresh">Обновить</string>
-    <string name="error_auth_name">Unauthorized</string>
-    <string name="error_default_title">Нет соединения</string>
     <string name="error_default_message">Что-то пошло не так, обновите\nэкран или проверьте соединение\nс сетью</string>
     <string name="error_service">Извините, сервис недоступен,\nпопробуйте повторить попытку позже</string>
-
-
     <string name="need_location_permission">Для работы приложения необходимо разрешение \"Местоположение\", включить его можно в настройках приложения</string>
     <string name="need_location_enable">Для работы приложения необходимо включить передачу геоданных, включить ее можно в настройках местоположения</string>
 
+    <!-- ТЕКСТЫ VIEW -->
     <string name="map">Карта</string>
     <string name="list">Список</string>
-
     <string name="settings">Настройки</string>
     <string name="cancel">Отмена</string>
-
     <string name="go_to_map">Открыть карту</string>
     <string name="empty_list_text">Список пуст.\nОбновите карту</string>
 
+    <!-- КЛЮЧИ -->
     <string name="google_maps_key">AIzaSyDqCdu-Nh00k8YZXaaOqHj-Zy6jbyDxx2w</string>
 
 </resources>

@@ -4,7 +4,5 @@
     <!-- СТАНДАРТНЫЕ ПАДДИННГИ -->
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_padding_medium">12dp</dimen>
-    <dimen name="default_padding_small">8dp</dimen>
-    <dimen name="default_padding_tiny">4dp</dimen>
 
 </resources>
