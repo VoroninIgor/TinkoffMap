@@ -25,4 +25,14 @@
         <item name="android:colorBackground">@android:color/transparent</item>
     </style>
 
+    <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TabLayout</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TabLayout" parent="">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSurface">@color/blue</item>
+        <item name="colorOnSurface">@color/blue</item>
+    </style>
+
 </resources>

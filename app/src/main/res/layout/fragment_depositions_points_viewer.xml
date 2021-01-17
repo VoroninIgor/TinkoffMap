@@ -12,16 +12,16 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabsDepositionsPoint"
+            style="@style/Widget.App.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            app:tabIndicatorColor="@color/blue"
-            app:tabMaxWidth="0dp"
             app:tabGravity="fill"
+            app:tabIndicatorColor="@color/orange"
+            app:tabIndicatorGravity="bottom"
+            app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabIndicatorGravity="stretch"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/cardview_dark_background" />
+            app:tabTextColor="@color/white" />
 
     </androidx.viewpager.widget.ViewPager>
 
