@@ -2,26 +2,20 @@ package com.voronin.tinkoff.data.base
 
 sealed class OperationState {
 
-    class Loading : OperationState()
-    class Success : OperationState()
-    class Cancel : OperationState()
+    object Loading : OperationState()
+    object Success : OperationState()
+    object Cancel : OperationState()
+
     class Error(val e: Throwable) : OperationState()
 
     companion object {
-        fun loading(): OperationState =
-            Loading()
 
-        fun cancel(): OperationState =
-            Cancel()
+        fun loading(): OperationState = Loading
 
-        fun success(): OperationState =
-            Success()
+        fun cancel(): OperationState = Cancel
 
-        fun error(e: Throwable): OperationState =
-            Error(e)
+        fun success(): OperationState = Success
+
+        fun error(e: Throwable = Throwable()): OperationState = Error(e)
     }
-
-//    fun getDataIfSuccess(): T? {
-//        return if (this is Success) this.data else null
-//    }
 }

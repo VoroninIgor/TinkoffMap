@@ -22,6 +22,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     companion object {
         private const val UPDATE_INTERVAL_IN_MILLISECONDS = 10000L
         private const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2L
+
+        val DEFAULT_LOCATION_GEO_MSK = LocationGeo(55.75231250290663, 37.61736397833792)
     }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient

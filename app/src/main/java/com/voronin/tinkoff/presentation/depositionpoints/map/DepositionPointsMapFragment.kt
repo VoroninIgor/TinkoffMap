@@ -48,6 +48,7 @@ class DepositionPointsMapFragment private constructor() :
     override fun onSuccessLocationListener() {
         addMyLocationMarker()
         moveCameraToLocation()
+        Log.d("voronin", "onSuccessLocationListener")
     }
 
     override fun onLocationEnabled() {
@@ -55,6 +56,7 @@ class DepositionPointsMapFragment private constructor() :
     }
 
     override fun onLocationDenied() {
+        depositionPointsMapStateViewFlipper.changeState(OperationState.error())
         Log.d("voronin", "onLocationDenied")
     }
 
@@ -66,6 +68,7 @@ class DepositionPointsMapFragment private constructor() :
         depositionPointsMapStateViewFlipper.changeState(OperationState.success())
         depositionPointsMapStateViewFlipper.setRetryMethod {
             requestLocationPermission()
+            depositionPointsMapStateViewFlipper.changeState(OperationState.success())
             googleMap?.let { refreshMap(it) }
         }
 
@@ -158,9 +161,14 @@ class DepositionPointsMapFragment private constructor() :
 
         var initLocationView = true
         setOnCameraChangeListener {
-            if (lastLocation != null && initLocationView) {
-                refreshMap(this)
-                initLocationView = false
+            if (lastLocation != null) {
+                if (initLocationView) {
+                    refreshMap(this)
+                    initLocationView = false
+                }
+            } else {
+                lastLocation = DEFAULT_LOCATION_GEO_MSK
+                depositionPointsMapStateViewFlipper.changeState(OperationState.error())
             }
         }
     }
