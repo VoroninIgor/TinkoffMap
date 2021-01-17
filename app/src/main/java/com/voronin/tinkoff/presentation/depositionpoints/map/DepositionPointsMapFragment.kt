@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_depositions_points_map.fabDeposit
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.fabDepositionPointsMapZoomIn
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.fabDepositionPointsMapZoomOut
 import kotlinx.android.synthetic.main.fragment_depositions_points_map.mapViewDepositionPointsMap
+import kotlin.math.max
 import kotlin.math.min
 
 class DepositionPointsMapFragment private constructor() :
@@ -35,7 +36,7 @@ class DepositionPointsMapFragment private constructor() :
             return DepositionPointsMapFragment()
         }
 
-        private const val MIN_ZOOM = 12f
+        private const val MIN_ZOOM = 10f
         private const val MAX_ZOOM = 16f
 
         private const val MY_LOCATION_ZOOM = 14f
@@ -52,12 +53,19 @@ class DepositionPointsMapFragment private constructor() :
     }
 
     override fun onLocationEnabled() {
+        depositionPointsMapStateViewFlipper.changeState(OperationState.success())
         Log.d("voronin", "onLocationEnabled")
     }
 
     override fun onLocationDenied() {
-        depositionPointsMapStateViewFlipper.changeState(OperationState.error())
+        showDefaultView()
         Log.d("voronin", "onLocationDenied")
+    }
+
+    private fun showDefaultView() {
+        lastLocation = DEFAULT_LOCATION_GEO_MSK
+        updatePoints(1500)
+        moveCameraToLocation()
     }
 
     override fun getMapView(): MapView? = mapViewDepositionPointsMap
@@ -68,12 +76,10 @@ class DepositionPointsMapFragment private constructor() :
         depositionPointsMapStateViewFlipper.changeState(OperationState.success())
         depositionPointsMapStateViewFlipper.setRetryMethod {
             requestLocationPermission()
-            depositionPointsMapStateViewFlipper.changeState(OperationState.success())
-            googleMap?.let { refreshMap(it) }
         }
 
         fabDepositionPointsMapZoomOut.setOnClickListener {
-            googleMap?.animateCamera(CameraUpdateFactory.zoomTo(min(getZoomValue() - 1, MIN_ZOOM)))
+            googleMap?.animateCamera(CameraUpdateFactory.zoomTo(max(getZoomValue() - 1, MIN_ZOOM)))
         }
         fabDepositionPointsMapZoomIn.setOnClickListener {
             googleMap?.animateCamera(CameraUpdateFactory.zoomTo(min(getZoomValue() + 1, MAX_ZOOM)))
@@ -98,6 +104,7 @@ class DepositionPointsMapFragment private constructor() :
         }
         depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsMapStateViewFlipper.changeState(it)
+            Log.d("voronin", "changeState " + it)
         }
         openDepositionPointDetail.observe { point ->
             DepositionPointFragment.newInstance(point).show(childFragmentManager, "")
@@ -161,22 +168,24 @@ class DepositionPointsMapFragment private constructor() :
 
         var initLocationView = true
         setOnCameraChangeListener {
+            Log.d("voronin", "setOnCameraChangeListener lastLocation = $lastLocation")
             if (lastLocation != null) {
                 if (initLocationView) {
                     refreshMap(this)
                     initLocationView = false
                 }
-            } else {
-                lastLocation = DEFAULT_LOCATION_GEO_MSK
-                depositionPointsMapStateViewFlipper.changeState(OperationState.error())
             }
         }
     }
 
     private fun refreshMap(googleMap: GoogleMap) {
+        updatePoints(googleMap.calculateVisibleRadius())
+    }
+
+    private fun updatePoints(radius: Int) {
         viewModel.depositionsListViewModel.getPoints(
             lastLocation,
-            radius = googleMap.calculateVisibleRadius()
+            radius = radius
         )
     }
 

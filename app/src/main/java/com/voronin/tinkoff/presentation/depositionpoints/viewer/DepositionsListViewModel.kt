@@ -1,5 +1,6 @@
 package com.voronin.tinkoff.presentation.depositionpoints.viewer
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.data.base.SingleInteractor2
@@ -19,6 +20,7 @@ class DepositionsListViewModel @Inject constructor(
     val markersProgressLiveData = MutableLiveData<OperationState>()
 
     fun getPoints(lastLocation: LocationGeo? = null, radius: Int = 1000) {
+        Log.d("voronin", "getPoints radius = $radius")
         if (lastLocation == null) return
 
         execute(

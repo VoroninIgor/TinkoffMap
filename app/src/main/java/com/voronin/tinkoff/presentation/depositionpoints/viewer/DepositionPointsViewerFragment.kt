@@ -1,6 +1,7 @@
 package com.voronin.tinkoff.presentation.depositionpoints.viewer
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -33,6 +34,11 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
     override fun onBindViewModel() = with(viewModel) {
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        adapter.onActivityResult(requestCode, resultCode, data)
+    }
+
     class DepositionPointsPagerAdapter(
         private val context: Context,
         fragmentManager: FragmentManager,
@@ -45,6 +51,12 @@ class DepositionPointsViewerFragment : BaseFragment(R.layout.fragment_deposition
             DepositionPointsMapFragment.newInstance() to R.string.map,
             DepositionPointsListFragment.newInstance() to R.string.list
         )
+
+        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            list.forEach {
+                it.first.onActivityResult(requestCode, resultCode, data)
+            }
+        }
 
         override fun getCount(): Int = list.size
 
