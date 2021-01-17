@@ -7,6 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.voronin.tinkoff.R
@@ -45,6 +46,7 @@ class DepositionPointsMapFragment private constructor() :
     private var googleMap: GoogleMap? = null
 
     override fun onSuccessLocationListener() {
+        addMyLocationMarker()
         moveCameraToLocation()
     }
 
@@ -126,29 +128,38 @@ class DepositionPointsMapFragment private constructor() :
         marker?.tag = depositionPoint
     }
 
+    private fun addMyLocationMarker() {
+        lastLocation?.let {
+            googleMap?.addMarker(
+                MarkerOptions()
+                    .position(LatLng(it.latitude, it.longitude))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            )
+        }
+    }
+
     @SuppressLint("PotentialBehaviorOverride")
-    private fun initGoogleMap(googleMap: GoogleMap) {
-        googleMap.setOnMarkerClickListener { marker ->
+    private fun initGoogleMap(googleMap: GoogleMap) = with(googleMap) {
+        setOnMarkerClickListener { marker ->
             if (marker.tag is DepositionPoint) {
                 viewModel.onMarkerClick(marker.tag as DepositionPoint)
                 return@setOnMarkerClickListener true
             }
-
             false
         }
-        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-        googleMap.uiSettings.apply {
+        mapType = GoogleMap.MAP_TYPE_NORMAL
+        uiSettings.apply {
             isZoomControlsEnabled = false
             isZoomGesturesEnabled = true
         }
 
-        googleMap.setMinZoomPreference(MIN_ZOOM)
-        googleMap.setMaxZoomPreference(MAX_ZOOM)
+        setMinZoomPreference(MIN_ZOOM)
+        setMaxZoomPreference(MAX_ZOOM)
 
         var initLocationView = true
-        googleMap.setOnCameraChangeListener {
+        setOnCameraChangeListener {
             if (lastLocation != null && initLocationView) {
-                refreshMap(googleMap)
+                refreshMap(this)
                 initLocationView = false
             }
         }
@@ -161,7 +172,5 @@ class DepositionPointsMapFragment private constructor() :
         )
     }
 
-    private fun getZoomValue(): Float {
-        return googleMap?.cameraPosition?.zoom ?: 0f
-    }
+    private fun getZoomValue(): Float = googleMap?.cameraPosition?.zoom ?: 0f
 }
