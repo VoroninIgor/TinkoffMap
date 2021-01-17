@@ -58,7 +58,10 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
     }
 
     private fun bindDepositionPoint(point: DepositionPoint) {
-        imageViewDepositionPoint.loadUrl(point.images.mediumImageUrl, R.drawable.ic_img_placeholder)
+        imageViewDepositionPoint.loadUrl(
+            url = point.images.mediumImageUrl,
+            roundedCornerDim = resources.getDimensionPixelSize(R.dimen.default_padding_medium)
+        )
 
         textViewDepositionPointPartnerName.text = point.partnerName
         textViewDepositionPointPartnerName.isVisible = point.partnerName.isNotEmpty()

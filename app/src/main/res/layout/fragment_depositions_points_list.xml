@@ -14,7 +14,11 @@
             android:id="@+id/depositionPointsListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#088FE0"
             android:orientation="vertical"
+            android:overScrollMode="always"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
 
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

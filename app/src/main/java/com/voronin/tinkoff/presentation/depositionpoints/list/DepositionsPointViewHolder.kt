@@ -35,7 +35,11 @@ class DepositionsPointViewHolder(
         textViewDepositionsPointFullAddress.text = item.fullAddress
         textViewDepositionsPointFullAddress.isVisible = item.fullAddress.isNotBlank()
 
-        imageViewDepositionsPointPartnerIcon.loadUrl(item.images.largeImageUrl)
+        imageViewDepositionsPointPartnerIcon.loadUrl(
+            url = item.images.largeImageUrl,
+            roundedCornerDim = context.resources.getDimensionPixelSize(R.dimen.default_padding_medium)
+
+        )
         imageViewDepositionsPointViewedIcon.isVisible = !item.isViewed
     }
 }
