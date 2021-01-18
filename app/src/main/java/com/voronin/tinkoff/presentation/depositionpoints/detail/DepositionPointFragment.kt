@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import com.voronin.tinkoff.R
@@ -63,21 +64,14 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
             roundedCornerDim = resources.getDimensionPixelSize(R.dimen.default_padding_medium)
         )
 
-        textViewDepositionPointPartnerName.text = point.partnerName
-        textViewDepositionPointPartnerName.isVisible = point.partnerName.isNotEmpty()
+        textViewDepositionPointPartnerName.setTextIfNotEmpty(point.partnerName)
+        textViewDepositionPointWorkHours.setTextIfNotEmpty(point.workHours)
 
-        textViewDepositionPointWorkHours.text = point.workHours
-        textViewDepositionPointWorkHours.isVisible = point.workHours.isNotEmpty()
-
-        textViewDepositionPointPhones.text = point.phones
-        textViewDepositionPointPhones.isVisible = point.phones.isNotEmpty()
+        textViewDepositionPointPhones.setTextIfNotEmpty(point.phones)
         textViewDepositionPointPhones.makePhoneAutoLink()
 
-        textViewDepositionPointAddressInfo.text = point.addressInfo
-        textViewDepositionPointAddressInfo.isVisible = point.addressInfo.isNotEmpty()
-
-        textViewDepositionPointFullAddress.text = point.fullAddress
-        textViewDepositionPointFullAddress.isVisible = point.fullAddress.isNotEmpty()
+        textViewDepositionPointAddressInfo.setTextIfNotEmpty(point.addressInfo)
+        textViewDepositionPointFullAddress.setTextIfNotEmpty(point.fullAddress)
 
         buttonDepositionPointGoToMap.setOnClickListener { openMap(point) }
     }
@@ -89,6 +83,11 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
         if (mapIntent.resolveActivity(requireContext().packageManager) != null) {
             startActivity(mapIntent)
         }
+    }
+
+    private fun TextView.setTextIfNotEmpty(text: String) {
+        this.text = text
+        this.isVisible = text.isNotEmpty()
     }
 
     override fun onDestroy() {
