@@ -169,7 +169,7 @@ class DepositionPointsMapFragment private constructor() :
         moveCameraToLocation(DEFAULT_LOCATION_GEO_MSK)
 
         var initLocationView = true
-        setOnCameraMoveStartedListener {
+        setOnCameraMoveListener {
             if (lastLocation != null) {
                 if (initLocationView) {
                     refreshMap(this)
