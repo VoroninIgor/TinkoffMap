@@ -23,4 +23,7 @@ interface RequestWithDepositionPointEntityDao {
 
     @Query("DELETE FROM $TABLE_NAME WHERE requestId = :id")
     fun delete(id: Long)
+
+    @Query("DELETE from $TABLE_NAME")
+    fun clear()
 }

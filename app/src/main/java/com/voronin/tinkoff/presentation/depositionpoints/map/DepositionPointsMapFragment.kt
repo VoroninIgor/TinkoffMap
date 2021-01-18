@@ -11,7 +11,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.voronin.tinkoff.R
-import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.presentation.base.BaseLocationFragment
 import com.voronin.tinkoff.presentation.depositionpoints.detail.DepositionPointFragment
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
@@ -50,17 +49,17 @@ class DepositionPointsMapFragment private constructor() :
     override fun onSuccessLocationListener() {
         addMyLocationMarker()
         moveCameraToLocation(lastLocation)
-        Log.d("voronin", "onSuccessLocationListener")
+        Log.d("tinkoff", "onSuccessLocationListener")
     }
 
     override fun onLocationEnabled() {
-        depositionPointsMapStateViewFlipper.changeState(OperationState.success())
-        Log.d("voronin", "onLocationEnabled")
+        depositionPointsMapStateViewFlipper.setStateData()
+        Log.d("tinkoff", "onLocationEnabled")
     }
 
     override fun onLocationDenied() {
         showDefaultView()
-        Log.d("voronin", "onLocationDenied")
+        Log.d("tinkoff", "onLocationDenied")
     }
 
     private fun showDefaultView() {
@@ -74,7 +73,7 @@ class DepositionPointsMapFragment private constructor() :
     override fun callOperations() = Unit
 
     override fun onSetupLayout(savedInstanceState: Bundle?) {
-        depositionPointsMapStateViewFlipper.changeState(OperationState.success())
+        depositionPointsMapStateViewFlipper.setStateData()
         depositionPointsMapStateViewFlipper.setRetryMethod {
             requestLocationPermission()
         }
@@ -108,7 +107,7 @@ class DepositionPointsMapFragment private constructor() :
         }
         depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsMapStateViewFlipper.changeState(it)
-            Log.d("voronin", "changeState " + it)
+            Log.d("tinkoff", "changeState " + it)
         }
         openDepositionPointDetail.observe { point ->
             DepositionPointFragment.newInstance(point).show(childFragmentManager, "")
@@ -174,7 +173,7 @@ class DepositionPointsMapFragment private constructor() :
 
         var initLocationView = true
         setOnCameraChangeListener {
-            Log.d("voronin", "setOnCameraChangeListener lastLocation = $lastLocation")
+            Log.d("tinkoff", "setOnCameraChangeListener lastLocation = $lastLocation")
             if (lastLocation != null) {
                 if (initLocationView) {
                     refreshMap(this)

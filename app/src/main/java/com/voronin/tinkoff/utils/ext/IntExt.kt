@@ -1,4 +1,4 @@
-package com.voronin.tinkoff.utils
+package com.voronin.tinkoff.utils.ext
 
 import android.content.res.Resources
 import android.util.TypedValue

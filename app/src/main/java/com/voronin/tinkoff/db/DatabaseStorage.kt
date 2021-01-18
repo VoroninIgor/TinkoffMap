@@ -19,5 +19,8 @@ class DatabaseStorage
 
     fun clearAllTables() {
         db.depositionPointDao().clear()
+        db.depositionPointReqDao().clear()
+        db.requestWithDepositionPointEntityDao().clear()
+        db.depositionPartnerDao().clear()
     }
 }

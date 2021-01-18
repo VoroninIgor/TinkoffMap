@@ -20,7 +20,7 @@ class DepositionsListViewModel @Inject constructor(
     val markersProgressLiveData = MutableLiveData<OperationState>()
 
     fun getPoints(lastLocation: LocationGeo? = null, radius: Int = 1000) {
-        Log.d("voronin", "getPoints radius = $radius")
+        Log.d("tinkoff", "getPoints radius = $radius")
         if (lastLocation == null) return
 
         execute(

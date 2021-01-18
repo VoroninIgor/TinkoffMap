@@ -89,7 +89,9 @@ class DepositionPointsRepo @Inject constructor(
     private fun getDepositionsPartner(): Single<List<DepositionPartnerDto>> {
         return database.depositionPartnerDao().getAll().flatMap { partners ->
             return@flatMap if (partners.isEmpty()) {
-                apiClient.getDepositionPartners()
+                apiClient.getDepositionPartners().doOnSuccess {
+                    saveDepositionsPartner(it)
+                }
             } else {
                 Single.just(partners.map { depositionMapper.fromEntityToModel(it) })
             }

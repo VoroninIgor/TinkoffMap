@@ -17,17 +17,13 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ApplicationModule::class,
-
         ApiServiceModule::class,
         ApiClientModule::class,
-
         ActivityModule::class,
         FragmentModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<TinkoffApplication> {
-
-    fun inject(dialogComponent: DialogComponent)
 
     @Component.Factory
     interface Factory {

@@ -32,6 +32,7 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
         depositionPointsListStateViewFlipper.setRetryMethod {
             viewModel.depositionsListViewModel.getPoints()
         }
+        depositionPointsListStateViewFlipper.setStateEmpty()
     }
 
     override fun onBindViewModel() = with(viewModel) {

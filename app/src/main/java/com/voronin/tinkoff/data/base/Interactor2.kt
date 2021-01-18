@@ -2,8 +2,6 @@ package com.voronin.tinkoff.data.base
 
 import androidx.lifecycle.MutableLiveData
 import com.voronin.tinkoff.utils.async
-import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
@@ -47,37 +45,6 @@ class SingleInteractor2<T>(
         disposable = interaction.async()
             .doOnSubscribe { onSubscribe.invoke() }
             .doOnDispose { onDispose.invoke() }
-            .subscribe(onNext, onError)
-        return disposable as Disposable
-    }
-}
-
-class ObservableInteractor2<T>(
-    private val interaction: Observable<T>,
-    data: MutableLiveData<T>,
-    state: MutableLiveData<OperationState>
-) : Interactor2<T>(data, state) {
-
-    override fun execute(): Disposable {
-        disposable = interaction.async()
-            // to rx search (subscribe != request)
-//                .doOnSubscribe { onSubscribe.invoke() }
-            .doOnDispose { onDispose.invoke() }
-            .subscribe(onNext, onError)
-        return disposable as Disposable
-    }
-}
-
-class FlowableInteractor2<T>(
-    private val interaction: Flowable<T>,
-    data: MutableLiveData<T>,
-    state: MutableLiveData<OperationState>? = null
-) : Interactor2<T>(data, state) {
-
-    override fun execute(): Disposable {
-        disposable = interaction.async()
-            .doOnSubscribe { onSubscribe.invoke() }
-            .doOnCancel { onDispose.invoke() }
             .subscribe(onNext, onError)
         return disposable as Disposable
     }

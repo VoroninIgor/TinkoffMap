@@ -63,7 +63,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     }
 
     fun requestLocationPermission() {
-        Log.d("voronin", "requestLocationPermission")
+        Log.d("tinkoff", "requestLocationPermission")
         disposable?.dispose()
         disposable = RxPermissions(this).requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -160,7 +160,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         if (hasNotGpsProvider || isProviderEnabled || hasNotNetworkProvider || isNetworkProviderEnabled) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocationClient.lastLocation.addOnSuccessListener {
-                Log.d("voronin", "fusedLocationClient lastLocation")
+                Log.d("tinkoff", "fusedLocationClient lastLocation")
                 if (it != null) {
                     lastLocation = LocationGeo(
                         it.latitude,
@@ -170,7 +170,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
                     defaultLocationGeo = true
                 } else {
                     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-                    Log.d("voronin", "requestLocationUpdates")
+                    Log.d("tinkoff", "requestLocationUpdates")
                 }
             }
             onLocationEnabled()
@@ -188,7 +188,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     private fun createLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
-                Log.d("voronin", "onLocationResult")
+                Log.d("tinkoff", "onLocationResult")
                 locationResult?.lastLocation?.let { it ->
                     lastLocation = LocationGeo(it.latitude, it.longitude)
                     fusedLocationClient.removeLocationUpdates(locationCallback)

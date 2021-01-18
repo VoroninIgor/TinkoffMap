@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.data.base.OperationState
 import com.voronin.tinkoff.utils.ext.inflate
-import com.voronin.tinkoff.utils.isServerError
+import com.voronin.tinkoff.utils.ext.isServerError
 import kotlinx.android.synthetic.main.view_state_error.view.buttonError
 import kotlinx.android.synthetic.main.view_state_error.view.textErrorDescription
 import kotlinx.android.synthetic.main.view_state_loading.view.progress
