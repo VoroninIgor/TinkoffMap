@@ -39,6 +39,7 @@ class DepositionPointsMapFragment private constructor() :
         private const val MAX_ZOOM = 16f
 
         private const val MY_LOCATION_ZOOM = 14f
+        private const val MY_LOCATION_RADIUS = 1500 // метры
     }
 
     private val viewModel: DepositionPointsMapViewModel by appViewModels()
@@ -60,7 +61,7 @@ class DepositionPointsMapFragment private constructor() :
 
     private fun showDefaultView() {
         lastLocation = DEFAULT_LOCATION_GEO_MSK
-        updatePoints(1500)
+        updatePoints(MY_LOCATION_RADIUS)
         moveCameraToLocation(DEFAULT_LOCATION_GEO_MSK)
     }
 
