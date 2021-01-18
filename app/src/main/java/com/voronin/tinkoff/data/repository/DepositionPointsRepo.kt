@@ -46,7 +46,8 @@ class DepositionPointsRepo @Inject constructor(
                     database.depositionPointReqDao().delete(req) // удаление запроса по истечению времени
                     database.requestWithDepositionPointEntityDao().delete(req.id)
                 } else {
-                    if (req.latitude == latitude && req.longitude == longitude && req.radius == radius && it.points.isNotEmpty()) {
+                    val isReqHasSameLocation = req.latitude == latitude && req.longitude == longitude && req.radius == radius
+                    if (isReqHasSameLocation && it.points.isNotEmpty()) {
                         return@flatMap Single.just(
                             it.points.map { item -> depositionMapper.fromEntityToModel(item) } // запрос найден в кеше
                         )
