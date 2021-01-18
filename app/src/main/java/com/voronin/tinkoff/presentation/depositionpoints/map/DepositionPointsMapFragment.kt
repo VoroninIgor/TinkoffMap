@@ -2,7 +2,6 @@ package com.voronin.tinkoff.presentation.depositionpoints.map
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -49,17 +48,14 @@ class DepositionPointsMapFragment private constructor() :
     override fun onSuccessLocationListener() {
         addMyLocationMarker()
         moveCameraToLocation(lastLocation)
-        Log.d("tinkoff", "onSuccessLocationListener")
     }
 
     override fun onLocationEnabled() {
         depositionPointsMapStateViewFlipper.setStateData()
-        Log.d("tinkoff", "onLocationEnabled")
     }
 
     override fun onLocationDenied() {
         showDefaultView()
-        Log.d("tinkoff", "onLocationDenied")
     }
 
     private fun showDefaultView() {
@@ -107,7 +103,6 @@ class DepositionPointsMapFragment private constructor() :
         }
         depositionsListViewModel.markersProgressLiveData.observe {
             depositionPointsMapStateViewFlipper.changeState(it)
-            Log.d("tinkoff", "changeState " + it)
         }
         openDepositionPointDetail.observe { point ->
             DepositionPointFragment.newInstance(point).show(childFragmentManager, "")
@@ -173,7 +168,6 @@ class DepositionPointsMapFragment private constructor() :
 
         var initLocationView = true
         setOnCameraChangeListener {
-            Log.d("tinkoff", "setOnCameraChangeListener lastLocation = $lastLocation")
             if (lastLocation != null) {
                 if (initLocationView) {
                     refreshMap(this)

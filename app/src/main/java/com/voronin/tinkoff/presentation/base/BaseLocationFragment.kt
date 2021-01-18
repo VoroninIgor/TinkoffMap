@@ -10,7 +10,6 @@ import android.location.LocationManager.GPS_PROVIDER
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +24,7 @@ import com.voronin.tinkoff.presentation.depositionpoints.models.LocationGeo
 import com.voronin.tinkoff.utils.GpsUtils
 import com.voronin.tinkoff.utils.GpsUtils.Companion.GPS_REQUEST
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layout) {
 
@@ -34,6 +34,8 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
 
         val DEFAULT_LOCATION_GEO_MSK = LocationGeo(55.75231250290663, 37.61736397833792)
     }
+
+    @Inject lateinit var gpsUtils: GpsUtils
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationManager: LocationManager
@@ -63,7 +65,6 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     }
 
     fun requestLocationPermission() {
-        Log.d("tinkoff", "requestLocationPermission")
         disposable?.dispose()
         disposable = RxPermissions(this).requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -102,9 +103,7 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
             .setIcon(R.drawable.ic_gps)
             .setMessage(R.string.need_location_enable)
             .setPositiveButton(getString(R.string.settings)) { dialog, _ ->
-                GpsUtils(requireContext()).turnGPSOn {
-                    onLocationEnabled()
-                }
+                gpsUtils.turnGPSOn { onLocationEnabled() }
                 dialog.dismiss()
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
@@ -160,7 +159,6 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
         if (hasNotGpsProvider || isProviderEnabled || hasNotNetworkProvider || isNetworkProviderEnabled) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
             fusedLocationClient.lastLocation.addOnSuccessListener {
-                Log.d("tinkoff", "fusedLocationClient lastLocation")
                 if (it != null) {
                     lastLocation = LocationGeo(
                         it.latitude,
@@ -170,7 +168,6 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
                     defaultLocationGeo = true
                 } else {
                     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-                    Log.d("tinkoff", "requestLocationUpdates")
                 }
             }
             onLocationEnabled()
@@ -188,7 +185,6 @@ abstract class BaseLocationFragment(@LayoutRes layout: Int) : BaseFragment(layou
     private fun createLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
-                Log.d("tinkoff", "onLocationResult")
                 locationResult?.lastLocation?.let { it ->
                     lastLocation = LocationGeo(it.latitude, it.longitude)
                     fusedLocationClient.removeLocationUpdates(locationCallback)

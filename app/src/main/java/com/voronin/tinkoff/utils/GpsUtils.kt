@@ -14,8 +14,11 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.SettingsClient
+import javax.inject.Inject
 
-class GpsUtils(private val context: Context) {
+class GpsUtils @Inject constructor(
+    private val context: Context
+) {
 
     companion object {
         const val GPS_REQUEST = 123

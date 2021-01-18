@@ -2,7 +2,7 @@ package com.voronin.tinkoff.presentation.base
 
 import androidx.lifecycle.ViewModel
 import com.voronin.tinkoff.data.base.Interactor
-import com.voronin.tinkoff.data.base.Interactor2
+import com.voronin.tinkoff.data.base.InteractorWithState
 import com.voronin.tinkoff.utils.async
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +18,7 @@ abstract class BaseViewModel : ViewModel() {
         return disposable
     }
 
-    fun <T> execute(interactor: Interactor2<T>?): Disposable? {
+    fun <T> execute(interactor: InteractorWithState<T>?): Disposable? {
         val disposable = interactor?.execute()
         disposable?.let { compositeDisposable.add(it) }
         return disposable

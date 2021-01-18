@@ -5,7 +5,7 @@ import com.voronin.tinkoff.utils.async
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
-abstract class Interactor2<T> constructor(
+abstract class InteractorWithState<T> constructor(
     val data: MutableLiveData<T>,
     private val state: MutableLiveData<OperationState>?
 ) {
@@ -35,11 +35,11 @@ abstract class Interactor2<T> constructor(
     }
 }
 
-class SingleInteractor2<T>(
+class SingleInteractorWithState<T>(
     private val interaction: Single<T>,
     data: MutableLiveData<T>,
     state: MutableLiveData<OperationState>? = null
-) : Interactor2<T>(data, state) {
+) : InteractorWithState<T>(data, state) {
 
     override fun execute(): Disposable {
         disposable = interaction.async()

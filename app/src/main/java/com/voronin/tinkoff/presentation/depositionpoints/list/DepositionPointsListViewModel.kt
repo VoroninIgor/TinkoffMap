@@ -1,7 +1,7 @@
 package com.voronin.tinkoff.presentation.depositionpoints.list
 
 import androidx.lifecycle.MutableLiveData
-import com.voronin.tinkoff.data.base.SingleInteractor2
+import com.voronin.tinkoff.data.base.SingleInteractorWithState
 import com.voronin.tinkoff.data.repository.DepositionPointsRepo
 import com.voronin.tinkoff.presentation.base.BaseViewModel
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
@@ -23,7 +23,7 @@ class DepositionPointsListViewModel @Inject constructor(
 
     fun refreshViewedPoint() {
         execute(
-            SingleInteractor2(
+            SingleInteractorWithState(
                 depositionPointsRepo.getAllPointsFromDatabase(),
                 viewedListLiveData,
                 null

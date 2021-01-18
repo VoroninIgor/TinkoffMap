@@ -1,9 +1,8 @@
 package com.voronin.tinkoff.presentation.depositionpoints.viewer
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.voronin.tinkoff.data.base.OperationState
-import com.voronin.tinkoff.data.base.SingleInteractor2
+import com.voronin.tinkoff.data.base.SingleInteractorWithState
 import com.voronin.tinkoff.data.repository.DepositionPointsRepo
 import com.voronin.tinkoff.presentation.base.BaseViewModel
 import com.voronin.tinkoff.presentation.depositionpoints.models.DepositionPoint
@@ -20,11 +19,10 @@ class DepositionsListViewModel @Inject constructor(
     val markersProgressLiveData = MutableLiveData<OperationState>()
 
     fun getPoints(lastLocation: LocationGeo? = null, radius: Int = 1000) {
-        Log.d("tinkoff", "getPoints radius = $radius")
         if (lastLocation == null) return
 
         execute(
-            SingleInteractor2(
+            SingleInteractorWithState(
                 depositionPointsRepo.getDepositionPoints(
                     latitude = lastLocation.latitude,
                     longitude = lastLocation.longitude,

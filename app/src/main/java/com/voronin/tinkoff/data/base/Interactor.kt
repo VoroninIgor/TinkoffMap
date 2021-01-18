@@ -7,7 +7,9 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
-abstract class Interactor<T> constructor(val operation: MutableLiveData<Operation<T>>) {
+abstract class Interactor<T> constructor(
+    private val operation: MutableLiveData<Operation<T>>,
+) {
 
     protected var disposable: Disposable? = null
 
