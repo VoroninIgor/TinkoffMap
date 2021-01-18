@@ -8,6 +8,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.voronin.tinkoff.R
 import com.voronin.tinkoff.presentation.base.BaseLocationFragment
@@ -45,6 +46,7 @@ class DepositionPointsMapFragment private constructor() :
     private val viewModel: DepositionPointsMapViewModel by appViewModels()
 
     private var googleMap: GoogleMap? = null
+    private var selectedMarker: Marker? = null
 
     override fun onSuccessLocationListener() {
         addMyLocationMarker()
@@ -151,11 +153,17 @@ class DepositionPointsMapFragment private constructor() :
     private fun initGoogleMap(googleMap: GoogleMap) = with(googleMap) {
         setOnMarkerClickListener { marker ->
             if (marker.tag is DepositionPoint) {
+                selectedMarker?.setDefaultColor()
+                selectedMarker = marker
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                 viewModel.onMarkerClick(marker.tag as DepositionPoint)
                 return@setOnMarkerClickListener true
             }
             false
+        }
+        setOnMapClickListener {
+            selectedMarker?.setDefaultColor()
+            selectedMarker = null
         }
         mapType = GoogleMap.MAP_TYPE_NORMAL
         uiSettings.apply {
@@ -181,6 +189,10 @@ class DepositionPointsMapFragment private constructor() :
 
     private fun refreshMap(googleMap: GoogleMap) {
         updatePoints(googleMap.calculateVisibleRadius())
+    }
+
+    private fun Marker.setDefaultColor(){
+      setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
     }
 
     private fun updatePoints(radius: Int) {
