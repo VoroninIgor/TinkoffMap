@@ -46,9 +46,9 @@ class DepositionPointsListFragment private constructor() : BaseFragment(R.layout
             depositionPointsListStateViewFlipper.changeState(it)
         }
         openDetailLiveData.observe { point ->
-            DepositionPointFragment.newInstance(point) {
-                refreshViewedPoint()
-            }.show(childFragmentManager, "")
+            DepositionPointFragment.newInstance(point, object : DepositionPointFragment.OnActionClose {
+                override fun onClose() = refreshViewedPoint()
+            }).show(childFragmentManager, "")
         }
         viewedListLiveData.observe { viewedList ->
             depositionsPointAdapter.updateViewedItems(viewedList)

@@ -23,11 +23,20 @@ import kotlinx.android.synthetic.main.fragment_depositions_point.textViewDeposit
 
 class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.layout.fragment_depositions_point) {
 
+    interface OnActionClose {
+        fun onClose()
+    }
+
     companion object {
 
         private const val DEPOSITION_POINT_PARAM_KEY = "deposition_point_param"
 
-        fun newInstance(depositionPoint: DepositionPoint, onActionClose: () -> Unit = {}): DepositionPointFragment {
+        fun newInstance(
+            depositionPoint: DepositionPoint,
+            onActionClose: OnActionClose = object : OnActionClose {
+                override fun onClose() = Unit
+            },
+        ): DepositionPointFragment {
             return DepositionPointFragment().apply {
                 this.onActionClose = onActionClose
                 arguments = bundleOf(DEPOSITION_POINT_PARAM_KEY to depositionPoint)
@@ -35,7 +44,7 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
         }
     }
 
-    private var onActionClose: () -> Unit = {}
+    private lateinit var onActionClose: OnActionClose
 
     private val viewModel: DepositionPointViewModel by appViewModels()
 
@@ -92,6 +101,6 @@ class DepositionPointFragment private constructor() : BaseBottomSheetFragment(R.
 
     override fun onDestroy() {
         super.onDestroy()
-        onActionClose.invoke()
+        onActionClose.onClose()
     }
 }
