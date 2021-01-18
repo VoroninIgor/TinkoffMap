@@ -151,6 +151,7 @@ class DepositionPointsMapFragment private constructor() :
     private fun initGoogleMap(googleMap: GoogleMap) = with(googleMap) {
         setOnMarkerClickListener { marker ->
             if (marker.tag is DepositionPoint) {
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                 viewModel.onMarkerClick(marker.tag as DepositionPoint)
                 return@setOnMarkerClickListener true
             }
